@@ -1541,7 +1541,7 @@
     background-color: #F2F2F2;
   }
   @media screen and (max-width: 768px) {
-    border-radius: ;
+    border-radius: 0px ;
   }
 }
 
