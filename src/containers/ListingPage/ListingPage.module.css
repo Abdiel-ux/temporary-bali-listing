@@ -1239,12 +1239,12 @@
 .detailTypeLabel {
   font-family: Mulish;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 8px;
   line-height: 130%;
   letter-spacing: 0%;
   color: #231F20;
   @media screen and (max-width: 768px) {
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 600;
   }
 }
