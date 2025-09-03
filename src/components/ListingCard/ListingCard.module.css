@@ -345,17 +345,16 @@ margin-right: 10px;
   border-radius: 10px;
   background: #f5f5f5;
   aspect-ratio: 388 / 282;
-
-  max-width: calc(57.5vw - 32.5vw);
+  max-width: 385px;
   @media (min-width: 1240px) {
-    /* max-width: calc(57.5vw - 41vw); */
+        max-width: 385px !important;
   }
   @media (max-width: 1024px) {
     /* max-width: calc(57.5vw - 15.5vw); */
   }
   @media (max-width: 767px) {
     aspect-ratio: 336 / 173;
-    max-width: calc(100vw - 40px);
+    max-width: 375px;
   }
   
 }
