@@ -19,7 +19,8 @@
   }
 
   @media (min-width: 1240px) {
-    grid-template-columns: repeat(3, 1fr);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px 20px;
   }
 }
@@ -59,12 +60,8 @@
   @media (max-width: 767px) {
     width: 100%;
   }
-  @media (min-width: 550px) {
-    width: calc(50% - 12px);
-  }
-  @media (min-width: 1240px) {
-    width: calc(33.33% - 13.33px);
-  }
+  
+  
 }
 
 .pagination {
