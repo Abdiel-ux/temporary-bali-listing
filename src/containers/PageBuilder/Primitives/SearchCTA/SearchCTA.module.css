@@ -77,8 +77,8 @@
   gap: 5px;
 
   & > * {
-    border: 1px solid #c4c4c4;
     border-radius: 5px;
+    /* box-shadow: 0 4px 5px rgba(0, 0, 0, 0.08); */
   }
 
   @media (--viewportLarge) {
@@ -87,7 +87,6 @@
     & > * {
       border: 0;
       border-radius: 0;
-      max-height: 80%;
     }
 
     &.gridCol1 {
@@ -108,8 +107,8 @@
     }
 
     & > *:not(:last-child):not(:nth-last-child(2)) {
-      border-right: 1px solid var(--colorGrey200) !important;
-      border-bottom: none;
+      /* border-right: 1px solid var(--colorGrey200);
+      border-bottom: none; */
       border: 0;
       padding: 0;
     }
@@ -190,12 +189,13 @@
   }
 }
 
+/* ========== TABS CONTAINER (sesuai Figma) ========== */
 .heroTabs {
-  display: flex;
-  background: #fff;
-  border-radius: 20px 20px 0 0;
+  display: inline-flex;
+  background: #f7f7f7;
+  border-radius: 12px 12px 0 0;   /* rounded atas */
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  box-shadow: none;               /* hilangkan shadow tebal */
   margin-bottom: -40px;
 
   @media (max-width: 767px) {
@@ -204,24 +204,21 @@
   }
 }
 
+/* ========== TAB ITEM ========== */
 .heroTab {
+  position: relative;             /* untuk pemisah ::after */
   padding: 9px 35px;
-  font-size: 22px;
-  font-weight: 600;
-  color: #222;
-  background: #f7f7f7;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  border: 1px solid #d3d3d3;
-  border-right: 0;
-
-  font-family: Mulish;
+  font-family: Mulish, sans-serif;
   font-weight: 700;
   font-size: 14px;
   line-height: 130%;
   letter-spacing: 0%;
+  color: #222;
+  background: #f7f7f7;
+  border: none;                   /* JANGAN border di sini */
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 
   @media (max-width: 767px) {
     padding: 9px 15px;
@@ -230,11 +227,34 @@
   }
 }
 
+/* pemisah VERTIKAL pendek seperti di Figma */
+.heroTab:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top:20%;                       /* beri jarak dari atas */
+  height: 60%;                    /* pemisah lebih pendek */
+  width: 1px;
+  background: #e6e6e6;            /* warna pemisah tipis */
+  pointer-events: none;
+  align-items: center !important;
+
+}
+
 .heroTab:first-child {
   border: none;
 }
 
+/* ========== TAB AKTIF ========== */
 .heroTab.active {
-  background: #ff5ce7;
+  background: #ff5ce7;   /* warna pink */
   color: #fff;
+  z-index: 2;            /* posisikan di atas border container */
+  border: none;          /* hilangkan border sisa */
+}
+
+
+.heroTab.active::after {
+  border: none !important;
+  display: none; /* pastikan garis pemisah kanan hilang di tab aktif */
 }
