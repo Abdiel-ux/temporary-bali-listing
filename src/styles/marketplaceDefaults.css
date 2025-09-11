@@ -230,6 +230,7 @@ section {
 
   @media (--viewportMedium) {
     scroll-margin-top: var(--topbarHeightDesktop);
+    height: auto !important;
   }
 }
 
