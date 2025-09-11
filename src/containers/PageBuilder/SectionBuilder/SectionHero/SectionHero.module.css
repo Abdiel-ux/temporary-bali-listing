@@ -15,8 +15,13 @@
   width: calc(100vw - 24px);
   margin: 0 auto;
   border-radius: 20px;
+
   & img {
     border-radius: 20px;
+  }
+
+  @media (min-width: 768px) {
+    height: auto !important;
   }
 }
 
