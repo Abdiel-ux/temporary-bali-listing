@@ -512,23 +512,6 @@ export const ListingPageComponent = props => {
                 location={publicData?.location?.address}
               />
             </div>
-
-            <div
-              className={classNames(css.tabsConrainer, {
-                [css.tabsContainerWithShadow]: showTabsShadow,
-              })}
-            >
-              {preparedSections.map(section => (
-                <button
-                  key={section.id}
-                  className={classNames(css.tab, { [css.activeTab]: activeTab === section.id })}
-                  onClick={() => handleTabClick(section.id)}
-                  type="button"
-                >
-                  {section.label}
-                </button>
-              ))}
-            </div>
             <div className={css.descriptionContainer}>
               <div id="description">
                 <h4 className={css.descriptionHeading}>Description</h4>
