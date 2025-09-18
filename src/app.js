@@ -8,6 +8,8 @@ import loadable from '@loadable/component';
 import difference from 'lodash/difference';
 import mapValues from 'lodash/mapValues';
 import moment from 'moment';
+import HelpWidget from './HelpWidget';
+
 
 // Configs and store setup
 import defaultConfig from './config/configDefault';
@@ -252,6 +254,7 @@ export const ClientApp = props => {
           <HelmetProvider>
             <IncludeScripts config={appConfig} />
             <BrowserRouter>
+            <HelpWidget/>
               <Routes logLoadDataCalls={logLoadDataCalls} />
             </BrowserRouter>
           </HelmetProvider>

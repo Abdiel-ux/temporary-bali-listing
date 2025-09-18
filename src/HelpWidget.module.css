@@ -1,5 +1,9 @@
-/* HelpWidget.module.css */
 .hlWidget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+
   height: 390px;
   width: 356px;
   background: #EB2BE8;
@@ -7,12 +11,13 @@
   padding: 20px !important;
   color: white;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  position: relative;
   overflow: hidden;
   font-family: 'Mulish';
   box-sizing: border-box;
-  margin-bottom: 50px !important;
+  padding-top: 20px;
 }
+
+
 
 .hlLogo {
   display: flex;
@@ -35,6 +40,7 @@
   font-size: 18px;
   font-weight: bold;
   color: white;
+  line-height: 19px;
 }
 
 .hlAvatars {
@@ -62,6 +68,7 @@
   text-align: left;
   margin-bottom: 25px;
   color: white;
+  line-height: 25px !important;
 }
 
 .hlOption {
@@ -79,7 +86,7 @@
   transition: transform 0.2s ease;
   box-sizing: border-box;
   flex-direction: row !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .hlOptionSub {

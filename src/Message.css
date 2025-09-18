@@ -1,0 +1,173 @@
+body {
+  font-family: 'Mulish';
+  background: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0; 
+}
+
+.chat-widget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+
+  width: 354px;
+  height: 510px;
+  background: #f2f2f2;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.chat-header {
+  background: #eb2be8;
+  height: 110px;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  flex-shrink: 0;
+}
+
+.chat-header span {
+  font-size: 18px;
+  font-weight: bold;
+  opacity: 0.8;
+  color: #fba6f9;
+}
+
+.text-header {
+  font-size: 20px;
+  font-weight: bold;
+  width: 100px;
+}
+
+.chat-header .logo {
+  height: 35.4px;
+  width: 25.8px;
+  margin-right: 8px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+/* Body */
+.chat-body {
+  flex: 1;
+  padding: 15px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow-y: auto;
+}
+
+/* Messages */
+.message-container {
+  display: flex;
+  gap: 10px;
+  max-width: 100%;
+}
+
+.message-container.user {
+  flex-direction: row-reverse;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.message-content {
+  max-width: calc(100% - 40px);
+}
+
+.message {
+  padding: 10px 15px;
+  border-radius: 0px 10px 10px 10px;
+  font-size: 14px;
+}
+
+.admin .message {
+  background: #fff;
+  border-radius: 0px 10px 10px 10px;
+}
+
+.user .message {
+  background: #eb2be8;
+  color: #fff;
+  border-radius: 10px 0px 10px 10px;
+}
+
+.username-admin {
+  font-weight: bold;
+  margin-top: -5px;
+  display: block;
+  color: #f74df4;
+}
+
+.username {
+  font-weight: bold;
+  margin-top: -5px;
+  display: block;
+}
+
+/* Footer */
+.chat-footer {
+  padding: 10px;
+  background: #fafafa;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px 45px 10px 15px;
+  border-radius: 30px;
+  background: #fff;
+  font-size: 14px;
+}
+
+.input-wrapper button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #f74df4;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.send {
+  width: 15px;
+  height: 15px;
+}
+
+.input-wrapper input::placeholder {
+  color: #c4c4c4;
+  font-size: 14px;
+}

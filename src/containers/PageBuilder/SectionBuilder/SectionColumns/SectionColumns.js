@@ -6,7 +6,6 @@
 
   import SectionContainer from '../SectionContainer';
   import css from './SectionColumns.module.css';
-  import HelpWidget from './HelpWidget';
 
   // The number of columns (numColumns) affects styling and responsive images
   const COLUMN_CONFIG = [
@@ -94,7 +93,6 @@
         appearance={appearance}
         options={fieldOptions}
       >
-        <HelpWidget/>
         {hasHeaderFields ? (
           <header className={defaultClasses.sectionDetails}>
             <Field data={title} className={defaultClasses.title} options={fieldOptions} />
