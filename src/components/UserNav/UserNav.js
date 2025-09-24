@@ -58,6 +58,14 @@ const UserNav = props => {
     ...manageListingsTabMaybe,
     ...favoriteTabMaybe,
     {
+      text: <FormattedMessage id="Favorite Listings" />,
+      selected: currentPage === 'FavoriteListingsPage',
+      disabled: false,
+      linkProps: {
+        name: 'FavoriteListingsPage',
+      },
+    },
+    {
       text: <FormattedMessage id="UserNav.profileSettings" />,
       selected: currentPage === 'ProfileSettingsPage',
       disabled: false,
