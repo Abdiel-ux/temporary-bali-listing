@@ -106,12 +106,11 @@ export const ContactDetailsPageComponent = props => {
   const title = intl.formatMessage({ id: 'ContactDetailsPage.title' });
 
   const showManageListingsLink = showCreateListingLinkForUser(config, currentUser);
-  const { showPayoutDetails, showPaymentMethods } = showPaymentDetailsForUser(config, currentUser);
   const accountSettingsNavProps = {
-    currentPage: 'ContactDetailsPage',
-    showPaymentMethods,
-    showPayoutDetails,
-  };
+  currentPage: 'ContactDetailsPage',
+  showPaymentMethods: false,
+  showPayoutDetails: false,
+ };
 
   return (
     <Page title={title} scrollingDisabled={scrollingDisabled}>

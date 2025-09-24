@@ -14,6 +14,9 @@ import { stripeAccountCreateSuccess } from './stripeConnectAccount.duck';
 export const CURRENT_USER_SHOW_REQUEST = 'app/user/CURRENT_USER_SHOW_REQUEST';
 export const CURRENT_USER_SHOW_SUCCESS = 'app/user/CURRENT_USER_SHOW_SUCCESS';
 export const CURRENT_USER_SHOW_ERROR = 'app/user/CURRENT_USER_SHOW_ERROR';
+export const CLEAR_FAVORITES_ON_PROFILE = 'app/user/CLEAR_FAVORITES_ON_PROFILE';
+export const REMOVE_FAVORITE_ON_PROFILE = 'app/user/REMOVE_FAVORITE_ON_PROFILE';
+
 
 export const CLEAR_CURRENT_USER = 'app/user/CLEAR_CURRENT_USER';
 
@@ -40,6 +43,13 @@ export const FETCH_CURRENT_USER_HAS_ORDERS_ERROR = 'app/user/FETCH_CURRENT_USER_
 export const SEND_VERIFICATION_EMAIL_REQUEST = 'app/user/SEND_VERIFICATION_EMAIL_REQUEST';
 export const SEND_VERIFICATION_EMAIL_SUCCESS = 'app/user/SEND_VERIFICATION_EMAIL_SUCCESS';
 export const SEND_VERIFICATION_EMAIL_ERROR = 'app/user/SEND_VERIFICATION_EMAIL_ERROR';
+export const clearFavoritesOnProfile = () => ({
+  type: CLEAR_FAVORITES_ON_PROFILE,
+});
+export const removeFavoriteOnProfile = listingId => ({
+  type: REMOVE_FAVORITE_ON_PROFILE,
+  payload: listingId,
+});
 
 // ================ Reducer ================ //
 
@@ -69,6 +79,8 @@ const initialState = {
   currentUserHasOrdersError: null,
   sendVerificationEmailInProgress: false,
   sendVerificationEmailError: null,
+
+  favorites: [],
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -348,6 +360,7 @@ export const fetchCurrentUser = options => (dispatch, getState, sdk) => {
   }
   // Set in-progress, no errors
   dispatch(currentUserShowRequest());
+  dispatch(authInfo());
 
   if (!isAuthenticated && !afterLogin) {
     // Make sure current user is null

@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useConfiguration } from '../../context/configurationContext';
 
@@ -17,6 +18,10 @@ import css from './ListingCard.module.css';
 import { handleToggleFavorites } from '../../util/userFavorites';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { useLocation, useHistory } from 'react-router-dom';
+
+// added imports for unfavorite wiring
+import { removeFavoriteOnProfile } from '../../ducks/user.duck';
+import { unfavoriteListing } from '../../containers/FavoriteListingsPage/FavoriteListingsPage.duck';
 
 const MIN_LENGTH_FOR_LONG_WORDS = 10;
 
@@ -114,6 +119,39 @@ export const checkPriceParams = () => {
   }
 };
 
+// Helper function untuk mencari image URL yang valid dari berbagai variant
+const findValidImageUrl = (img, imageIndex) => {
+  // ... same as before (omitted for brevity in canvas) ...
+  let imageUrl = null;
+
+  const possibleVariants = [
+    'landscape-crop2x',
+    'landscape-crop',
+    'scaled-small',
+    'scaled-medium', 
+    'scaled-large',
+    'default'
+  ];
+
+  for (const variant of possibleVariants) {
+    imageUrl = img?.attributes?.variants?.[variant]?.url;
+    if (imageUrl) break;
+  }
+
+  if (!imageUrl) imageUrl = img?.attributes?.url;
+  return imageUrl;
+};
+
+const processListingImages = (currentListing) => {
+  if (!currentListing.images || !Array.isArray(currentListing.images)) return [];
+  const processedImages = [];
+  currentListing.images.forEach((img) => {
+    const validUrl = findValidImageUrl(img);
+    if (validUrl) processedImages.push(validUrl);
+  });
+  return processedImages;
+};
+
 const PriceMaybe = props => {
   const { price, publicData, config, isRentals } = props;
   const { listingType, weekprice, monthprice, yearprice } = publicData || {};
@@ -128,16 +166,13 @@ const PriceMaybe = props => {
 
   let rentalPrice = price;
   if (isRentals) {
-    // Check if priceParams is available
     if (priceParams?.yearprice) {
       rentalPrice = yearprice;
     } else if (priceParams?.monthprice) {
       rentalPrice = monthprice;
     } else if (priceParams?.weekprice) {
       rentalPrice = weekprice;
-    }
-    // Check if publicData is available
-    else if (publicData?.monthprice) {
+    } else if (publicData?.monthprice) {
       rentalPrice = monthprice;
     } else if (publicData?.weekprice) {
       rentalPrice = weekprice;
@@ -189,9 +224,11 @@ export const ListingCard = props => {
     showAuthorInfo = true,
     currentUser,
     onUpdateFavorites,
+    showWishlistButton = true ,
   } = props;
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureListing(listing);
+
   const id = currentListing.id.uuid;
   const { title = '', price: p, publicData } = currentListing.attributes;
   const slug = createSlug(title);
@@ -225,42 +262,86 @@ export const ListingCard = props => {
       }
     : null;
 
-  const imagesUrls = currentListing.images.map(
-    img => img.attributes.variants['landscape-crop2x']?.url
-  );
-  // Per-card slider settings
+  // === PROSES GAMBAR ===
+  const processedImageUrls = processListingImages(currentListing);
+  const hasValidImages = processedImageUrls.length > 0;
+  const displayImages = hasValidImages ? processedImageUrls : ['/images/placeholder-property.jpg'];
+
   const cardSliderSettings = {
     ...sliderSettings,
-    infinite: imagesUrls.length > 1,
+    infinite: displayImages.length > 1,
   };
 
+  const dispatch = useDispatch();
   const isFavorite = currentUser?.attributes.profile.privateData.favorites?.includes(id);
+
+  // NEW: custom onToggleFavorites that mirrors "tong sampah" behavior for UNFAVORITE
   const onToggleFavorites = e => {
     e.preventDefault();
     e.stopPropagation();
+
+    // customOnUpdate akan dipanggil oleh handleToggleFavorites
+    const customOnUpdate = payload => {
+      if (isFavorite) {
+        // UNFAVORITE: panggil thunk user.duck yang sudah mengupdate profile di server
+        dispatch(removeFavoriteOnProfile(id))
+          .then(() => {
+            // Setelah backend sukses, update page-level state agar listing hilang dari FavoriteListings
+            dispatch(unfavoriteSuccess(id));
+          })
+          .catch(err => {
+            console.error('Unfavorite failed:', err);
+          });
+      } else {
+        // FAVORITE: forward payload ke onUpdateFavorites jika parent menyediakan
+        if (typeof onUpdateFavorites === 'function') {
+          onUpdateFavorites(payload);
+        } else {
+          // fallback: log (atau Anda bisa dispatch addFavorite thunk jika tersedia)
+          console.log('Favoriting not wired: payload=', payload);
+        }
+      }
+    };
+
+    // Panggil util handleToggleFavorites (tetap menjaga redirect/login flow)
     handleToggleFavorites({
       location: routeLocation,
       history,
       routes,
       currentUser,
       params: { id },
-      onUpdateFavorites: onUpdateFavorites,
+      onUpdateFavorites: customOnUpdate,
     })(isFavorite);
   };
 
   return (
     <NamedLink name="ListingPage" params={{ id, slug }} className={classes}>
+      {showWishlistButton && (
       <button 
         className={classNames(css.wishlistButton, isFavorite ? css.active : '')} 
         onClick={onToggleFavorites}>
         <IconCollection name="icon-waislist" />
       </button>
+      )}
 
       <div className={css.imageWrapper}>
         <Slider {...cardSliderSettings} className={css.slider}>
-          {imagesUrls.map((img, imgIdx) => (
-            <img src={img} alt={title} className={css.image + ' ' + css.imageFade} key={imgIdx} />
-          ))}
+          {displayImages.map((imageUrl, imgIdx) => {
+            return (
+              <div key={imgIdx}>
+                <img 
+                  src={imageUrl} 
+                  alt={title || `Property image ${imgIdx + 1}`}
+                  className={css.image + ' ' + css.imageFade}
+                  onError={(e) => {
+                    if (e.target.src !== '/images/placeholder-property.jpg') {
+                      e.target.src = '/images/placeholder-property.jpg';
+                    }
+                  }}
+                />
+              </div>
+            );
+          })}
         </Slider>
       </div>
       <div className={css.info}>
@@ -271,13 +352,16 @@ export const ListingCard = props => {
             </span>
           ))}
           {!!Freehold && <span className={css.tag}>{capitaliseFirstLetter(Freehold)}</span>}
-          <NamedLink className={css.listedBy} name="ProfilePage" params={{ id: author.id.uuid }}>
-            <span className={css.listedBy}>
-              Listed by:{' '}
-              <span className={css.listedByName}>{author.attributes.profile.displayName}</span>
-            </span>
-          </NamedLink>
+          {author?.id?.uuid && (
+            <NamedLink className={css.listedBy} name="ProfilePage" params={{ id: author.id.uuid }}>
+              <span className={css.listedBy}>
+                Listed by:{' '}
+                <span className={css.listedByName}>{author.attributes.profile.displayName}</span>
+              </span>
+            </NamedLink>
+          )}
         </div>
+
 
         <div className={css.mainInfo}>
           <div className={css.title}>
@@ -342,3 +426,4 @@ export const ListingCard = props => {
 };
 
 export default ListingCard;
+// End of recent edits

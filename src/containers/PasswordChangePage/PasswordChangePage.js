@@ -68,7 +68,8 @@ export const PasswordChangePageComponent = props => {
   const title = intl.formatMessage({ id: 'PasswordChangePage.title' });
 
   const showManageListingsLink = showCreateListingLinkForUser(config, currentUser);
-  const { showPayoutDetails, showPaymentMethods } = showPaymentDetailsForUser(config, currentUser);
+  const { showPayoutDetails, showPaymentMethods } =
+  showPaymentDetailsForUser(config, currentUser) || {};
   const accountSettingsNavProps = {
     currentPage: 'PasswordChangePage',
     showPaymentMethods,

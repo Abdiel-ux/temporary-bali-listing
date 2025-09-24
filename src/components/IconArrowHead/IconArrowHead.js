@@ -116,7 +116,7 @@ const IconArrowHead = props => {
         }}
         width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg">
         <foreignObject x="-5.77869" y="-5.77869" width="49.5574" height="49.5574"><div xmlns="http://www.w3.org/1999/xhtml" style={{backdropFilter: 'blur(2.89px)', clipPath: 'url(#bgblur_0_2376_35309_clip_path)', height: '100%', width: '100%'}}></div></foreignObject><rect data-figma-bg-blur-radius="5.77869" width="38" height="38" rx="19" fill="white"/>
-        <path d="M22.9507 26.5746L15.7031 19.327L22.9507 12.0793" stroke="#353535" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22.9507 26.5746L15.7031 19.327L22.9507 12.0793" stroke="#353535" stroke-width="1.5" stroke-linecap="round" strokeLinejoin="round"/>
         <defs>
         <clipPath id="bgblur_0_2376_35309_clip_path" transform="translate(5.77869 5.77869)"><rect width="38" height="38" rx="19"/>
         </clipPath></defs>

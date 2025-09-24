@@ -1,0 +1,162 @@
+@import '../../styles/customMediaQueries.css';
+
+.root {
+}
+
+.messagePanel,
+.listingPanel {
+  margin: 24px auto 0 auto;
+
+  @media (--viewportMedium) {
+    margin: 48px auto 0 auto;
+  }
+
+  @media (--viewportLarge) {
+    margin: 72px auto 0 auto;
+    max-width: calc(var(--contentMaxWidth) + 72px);
+  }
+
+  @media (--viewportXLarge) {
+    max-width: var(--contentMaxWidth);
+  }
+}
+
+.heading {
+  margin: 0 24px 24px 24px;
+
+  @media (--viewportMedium) {
+    margin: 0 24px 32px 24px;
+  }
+
+  @media (--viewportLarge) {
+    margin-bottom: -60px;
+  }
+}
+
+.listingCards {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: center;
+  width: 100%;
+  margin-left: 20px;
+  @media (min-width: 550px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--viewportMedium) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (--viewportLarge) {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+}
+
+.removeAll {
+  border: none;
+  display: flex;
+  color: #EB2BE8;
+  margin-bottom: 50px;
+  margin-right: 150px;
+}
+
+.removeAll:hover {
+  text-decoration: underline #EB2BE8; 
+  color: black;
+}
+
+.listingCard {
+  width: 85%;
+}
+
+/**
+ * Remove margin-right from listingCards on the last column
+ * This is a special case in the world of breakpoints. Nth-of-type effects every nth item.
+ * Here we take margin-right away, but we don't want it affect the next column breakpoint.
+ */
+
+.listingCard:nth-of-type(2n) {
+  @media screen and (min-width: 768px) and (max-width: 1920px) {
+    margin-right: 0;
+  }
+}
+
+.listingCard:nth-of-type(3n) {
+  @media (--viewportXLarge) {
+    margin-right: 0;
+  }
+}
+
+.pagination {
+  /* margin-top: auto; pushes pagination to the end of the page. */
+  margin: auto 24px 0 24px;
+
+  @media (--viewportLarge) {
+    margin: auto 36px 0 36px;
+  }
+}
+
+.selectCircle {
+  position: absolute;  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selectCircle:hover {
+  border-color: #c922ce;
+  transform: scale(1.1);
+}
+
+.selectCircle.selected {
+  border-color: #c922ce;
+  background: #d81ee9;
+}
+
+.selectCircle.selected::after {
+  content: '✓';
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.removeSelected {
+  border: none;
+  display: flex;
+  justify-content: flex-end;
+  width: 91%;
+  margin-left: -50px;
+}
+
+.removeSelected img {
+  width: 60px;
+  height: 53px;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  cursor: pointer;
+  margin-bottom: -24px;
+
+  @media (--viewportMedium) {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  @media (--viewportLarge) {
+    font-size: 14px;
+    padding: 8px 12px;
+    margin-right: 70px;
+    margin-bottom: -90px;
+  }
+}
