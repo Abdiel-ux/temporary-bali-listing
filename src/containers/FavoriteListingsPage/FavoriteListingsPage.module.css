@@ -50,6 +50,7 @@
   @media (--viewportLarge) {
     grid-template-columns: repeat(2, 1fr);
     justify-content: center;
+    margin-top: 35px;
   }
 }
 
@@ -57,7 +58,6 @@
   border: none;
   display: flex;
   color: #EB2BE8;
-  margin-bottom: 50px;
   margin-right: 150px;
 }
 

@@ -169,16 +169,19 @@ export const FavoriteListingsPageComponent = props => {
               </button>
             )}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 0' }}>
-            <button
-              type="button"
-              onClick={handleUnfavoriteAll}
-              className={css.removeAll}
-              title="Unfavorite all listings"
-            >
-              🗑️ Unfavorite All
-            </button>
-          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '8px 0'}}>
+  {selectedIds.length > 0 && (
+    <button
+      type="button"
+      onClick={handleUnfavoriteAll}
+      className={css.removeAll}
+      title="Unfavorite all listings"
+    >
+      🗑️ Unfavorite All
+    </button>
+  )}
+</div>
+
           <div className={css.listingCards}>
             {Array.isArray(listings) && listings.length > 0 ? (
               listings.map(l => {
