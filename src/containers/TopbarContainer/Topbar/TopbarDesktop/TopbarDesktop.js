@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { parse } from '../../../../util/urlHelpers';
+import { connect } from 'react-redux';
+import { selectIsProvider } from '../../../../ducks/user.duck';
+
 
 import { FormattedMessage } from '../../../../util/reactIntl';
 import { ACCOUNT_SETTINGS_PAGES } from '../../../../routing/routeConfiguration';
@@ -54,7 +57,7 @@ const InboxLink = ({ notificationCount, inboxTab }) => {
   );
 };
 
-const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLink }) => {
+const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLink, isProvider }) => {
   const currentPageClass = page => {
     const isAccountSettingsPage =
       page === 'AccountSettingsPage' && ACCOUNT_SETTINGS_PAGES.includes(currentPage);
@@ -78,6 +81,7 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
             </NamedLink>
           </MenuItem>
         ) : null}
+
         <MenuItem key="ProfileSettingsPage">
           <NamedLink
             className={classNames(css.menuLink, currentPageClass('ProfileSettingsPage'))}
@@ -87,6 +91,7 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
             <FormattedMessage id="TopbarDesktop.profileSettingsLink" />
           </NamedLink>
         </MenuItem>
+
         <MenuItem key="AccountSettingsPage">
           <NamedLink
             className={classNames(css.menuLink, currentPageClass('AccountSettingsPage'))}
@@ -96,6 +101,19 @@ const ProfileMenu = ({ currentPage, currentUser, onLogout, showManageListingsLin
             <FormattedMessage id="TopbarDesktop.accountSettingsLink" />
           </NamedLink>
         </MenuItem>
+
+        {!isProvider && ( // <-- favorite hanya muncul kalau BUKAN provider
+          <MenuItem key="FavoriteListingsPage">
+            <NamedLink
+              className={classNames(css.menuLink, currentPageClass('FavoriteListingsPage'))}
+              name="FavoriteListingsPage"
+            >
+              <span className={css.menuItemBorder} />
+              <FormattedMessage id="Favorite Listings" />
+            </NamedLink>
+          </MenuItem>
+        )}
+
         <MenuItem key="logout">
           <InlineTextButton rootClassName={css.logoutButton} onClick={onLogout}>
             <span className={css.menuItemBorder} />
@@ -320,6 +338,7 @@ const TopbarDesktop = props => {
       currentUser={currentUser}
       onLogout={onLogout}
       showManageListingsLink={showCreateListingsLink}
+      isProvider={props.isProvider}
     />
   ) : (
     <NotSignedInProfileMenu
@@ -407,4 +426,8 @@ const TopbarDesktop = props => {
   );
 };
 
-export default TopbarDesktop;
+const mapStateToProps = state => ({
+  isProvider: selectIsProvider(state),
+});
+
+export default connect(mapStateToProps)(TopbarDesktop);

@@ -463,3 +463,81 @@ export const sendVerificationEmail = () => (dispatch, getState, sdk) => {
     .then(() => dispatch(sendVerificationEmailSuccess()))
     .catch(e => dispatch(sendVerificationEmailError(storableError(e))));
 };
+
+// ================ Additional Selectors (added) ================ //
+
+/**
+ * Generic selector for currentUser entity from the user reducer.
+ * Returns null if not available.
+ */
+export const selectCurrentUser = state => state?.user?.currentUser || null;
+
+/**
+ * Common place where "publicData" / profile custom data usually lives.
+ * This tries to be resilient to different currentUser shapes:
+ * - currentUser.attributes.profile.publicData (typical)
+ * - currentUser.profile.publicData
+ * - currentUser.publicData
+ *
+ * Returns an object (empty if no public data found).
+ */
+export const selectCurrentUserPublicData = state => {
+  const currentUser = selectCurrentUser(state);
+  // flexibility for multiple shapes
+  const pd =
+    currentUser?.attributes?.profile?.publicData ||
+    currentUser?.profile?.publicData ||
+    currentUser?.publicData ||
+    {};
+  return pd || {};
+};
+
+/**
+ * More resilient selectIsProvider with optional debug logging
+ * Tries several common flag names and locations used across projects.
+ *
+ * Usage: selectIsProvider(state) or selectIsProvider(state, { debug: true })
+ */
+// More resilient selectIsProvider with userType check
+export const selectIsProvider = (state, { debug = false } = {}) => {
+  const currentUser = selectCurrentUser(state);
+  if (!currentUser) return false;
+
+  // try multiple common places for "publicData"
+  const candidates = [
+    currentUser?.attributes?.profile?.publicData,
+    currentUser?.attributes?.profile,         // some APIs put flags here
+    currentUser?.attributes?.publicData,
+    currentUser?.profile?.publicData,
+    currentUser?.publicData,
+  ];
+
+  // pick first object-like candidate
+  const publicData = candidates.find(pd => pd && typeof pd === 'object') || {};
+
+  // extra top-level fallbacks
+  const topLevel = {
+    role: currentUser?.attributes?.role || currentUser?.role || currentUser?.type,
+    isProvider: currentUser?.isProvider || currentUser?.attributes?.isProvider,
+  };
+
+  // checks: include userType === 'provider' and other common names
+  const isProviderDetected =
+    publicData?.isProvider === true ||
+    publicData?.is_seller === true ||
+    publicData?.userType === 'provider' ||        // <<< ADDED: your case
+    publicData?.role === 'provider' ||
+    publicData?.accountType === 'provider' ||
+    (Array.isArray(publicData?.roles) && publicData.roles.includes('provider')) ||
+    publicData?.provider === true ||
+    topLevel.isProvider === true ||
+    topLevel.role === 'provider';
+
+  if (debug) {
+    // temporary debug output — remove after you confirm which field is used
+    // eslint-disable-next-line no-console
+    console.log('selectIsProvider debug -> publicData:', publicData, ' topLevel:', topLevel, ' result:', isProviderDetected);
+  }
+
+  return Boolean(isProviderDetected);
+};
