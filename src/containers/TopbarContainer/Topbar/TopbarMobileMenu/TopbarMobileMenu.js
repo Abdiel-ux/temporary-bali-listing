@@ -10,9 +10,7 @@ import { FormattedMessage } from '../../../../util/reactIntl';
 import { ensureCurrentUser } from '../../../../util/data';
 
 import {
-  AvatarLarge,
   AvatarMedium,
-  AvatarSmall,
   ExternalLink,
   InlineTextButton,
   NamedLink,
@@ -22,7 +20,7 @@ import {
 import css from './TopbarMobileMenu.module.css';
 
 const CustomLinkComponent = ({ linkConfig, currentPage }) => {
-  const { group, text, type, href, route } = linkConfig;
+  const { text, type, href, route } = linkConfig;
   const getCurrentPageClass = page => {
     const hasPageName = name => currentPage?.indexOf(name) === 0;
     const isCMSPage = pageId => hasPageName('CMSPage') && currentPage === `${page}:${pageId}`;
@@ -42,14 +40,12 @@ const CustomLinkComponent = ({ linkConfig, currentPage }) => {
     const className = classNames(css.navigationLink, getCurrentPageClass(name));
     return (
       <NamedLink name={name} params={params} to={to} className={className}>
-        <span className={css.menuItemBorder} />
         {text}
       </NamedLink>
     );
   }
   return (
     <ExternalLink href={href} className={css.navigationLink}>
-      <span className={css.menuItemBorder} />
       {text}
     </ExternalLink>
   );
@@ -94,38 +90,33 @@ const TopbarMobileMenu = props => {
   });
 
   if (!isAuthenticated) {
-    const signup = (
-      <NamedLink name="SignupPage" className={css.signupLink}>
-        <FormattedMessage id="TopbarMobileMenu.signupLink" />
-      </NamedLink>
-    );
-
-    const login = (
-      <NamedLink name="LoginPage" className={css.loginLink}>
-        <FormattedMessage id="TopbarMobileMenu.loginLink" />
-      </NamedLink>
-    );
-
-    const signupOrLogin = (
-      <span className={css.authenticationLinks}>
-        <FormattedMessage id="TopbarMobileMenu.signupOrLogin" values={{ signup, login }} />
-      </span>
-    );
     return (
       <div className={css.root}>
-        <div className={css.content}>
-          <div className={css.authenticationGreeting}>
-            <FormattedMessage
-              id="TopbarMobileMenu.unauthorizedGreeting"
-              values={{ lineBreak: <br />, signupOrLogin }}
-            />
-          </div>
-
-          <div className={css.customLinksWrapper}>{extraLinks}</div>
-
-          <div className={css.spacer} />
+        {/* Add listing button */}
+        <div className={css.addListingSection}>
+          <NamedLink name="NewListingPage" className={css.createNewListingLink}>
+            <FormattedMessage id="TopbarMobileMenu.newListingLink" />
+          </NamedLink>
         </div>
-      </div>
+
+        {/* Authentication section */}
+        <div className={css.authenticationSection}>
+          <div className={css.authenticationLinks}>
+            <NamedLink name="SignupPage" className={css.signupLink}>
+              <FormattedMessage id="TopbarMobileMenu.signupLink" />
+            </NamedLink>
+            <NamedLink name="LoginPage" className={css.loginLink}>
+              <FormattedMessage id="TopbarMobileMenu.loginLink" />
+            </NamedLink>
+          </div>
+        </div>
+
+        {/* Custom links */}
+        {extraLinks.length > 0 && (
+          <div className={css.customLinksWrapper}>
+            {extraLinks}
+          </div>
+        )}      </div>
     );
   }
 
@@ -185,8 +176,12 @@ const TopbarMobileMenu = props => {
             <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
           </NamedLink>
         </div>
-        <div className={css.customLinksWrapper}>{extraLinks}</div>
-        <div className={css.spacer} />
+
+        {extraLinks.length > 0 && (
+          <div className={css.customLinksWrapper}>
+            {extraLinks}
+          </div>
+        )}
       </div>
     </div>
   );
