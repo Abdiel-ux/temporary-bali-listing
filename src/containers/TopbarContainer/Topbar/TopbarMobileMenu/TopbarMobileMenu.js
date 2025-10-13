@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { ACCOUNT_SETTINGS_PAGES } from '../../../../routing/routeConfiguration';
 import { FormattedMessage } from '../../../../util/reactIntl';
 import { ensureCurrentUser } from '../../../../util/data';
+import vectorIcon from './img/Vector.png';
 
 import {
   AvatarMedium,
@@ -111,12 +112,25 @@ const TopbarMobileMenu = props => {
           </div>
         </div>
 
+        {/* Settings section */}
+          <div className={css.settingsSection}>
+            <div className={css.settingItem}>
+              <span>Language</span>
+            </div>
+            <img src={vectorIcon} alt="description" className={css.vectorIcon}/>
+            <div className={css.settingItem}>
+              <span>Currency</span>
+            </div>
+            <img src={vectorIcon} alt="description" className={css.vectorIcon}/>
+          </div>
+
         {/* Custom links */}
         {extraLinks.length > 0 && (
           <div className={css.customLinksWrapper}>
             {extraLinks}
           </div>
-        )}      </div>
+        )}      
+        </div>
     );
   }
 

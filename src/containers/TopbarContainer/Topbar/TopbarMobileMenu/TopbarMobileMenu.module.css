@@ -28,6 +28,32 @@
   gap: 32px;
 }
 
+.settingItem {
+  font-weight: var(--fontWeightBold);
+  font-size: 16px;
+  color: #4A4A4F;
+}
+
+.vectorIcon {
+    width: 12px;
+    height: auto;
+    cursor: pointer;
+    margin-left: 85px;
+    margin-top: -48px;
+    transition: all 0.3s ease;
+}
+
+.vectorIcon:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
+}
+
+.settingsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 .footer {
   order: -2;
   margin-bottom: 24px;
