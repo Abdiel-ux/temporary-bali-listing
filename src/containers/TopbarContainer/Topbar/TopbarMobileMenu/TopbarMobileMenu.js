@@ -2,13 +2,18 @@
  *  TopbarMobileMenu prints the menu content for authenticated user or
  * shows login actions for those who are not authenticated.
  */
-import React from 'react';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 
 import { ACCOUNT_SETTINGS_PAGES } from '../../../../routing/routeConfiguration';
 import { FormattedMessage } from '../../../../util/reactIntl';
 import { ensureCurrentUser } from '../../../../util/data';
+import { setCurrency } from '../../../../ducks/currency.js';
+import { useLocale, languageNames } from '../../../../context/localeContext';
 import vectorIcon from './img/Vector.png';
+
 
 import {
   AvatarMedium,
@@ -33,24 +38,29 @@ const CustomLinkComponent = ({ linkConfig, currentPage }) => {
       : null;
   };
 
-  // Note: if the config contains 'route' keyword,
-  // then in-app linking config has been resolved already.
   if (type === 'internal' && route) {
-    // Internal link
     const { name, params, to } = route || {};
     const className = classNames(css.navigationLink, getCurrentPageClass(name));
     return (
       <NamedLink name={name} params={params} to={to} className={className}>
+        <span className={css.menuItemBorder} />
         {text}
       </NamedLink>
     );
   }
   return (
     <ExternalLink href={href} className={css.navigationLink}>
+      <span className={css.menuItemBorder} />
       {text}
     </ExternalLink>
   );
 };
+
+// Currency options - sama dengan di LanguageCurrencyMenu
+const currencies = [
+  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'RP' },
+  { code: 'USD', name: 'United States Dollar', symbol: '$' },
+];
 
 /**
  * Menu for mobile layout (opens through hamburger icon)
@@ -76,9 +86,29 @@ const TopbarMobileMenu = props => {
     customLinks,
     onLogout,
     showCreateListingsLink,
+    config,
   } = props;
 
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
+  
+  // Tambahkan hooks untuk language & currency
+  const dispatch = useDispatch();
+  const selectedCurrency = useSelector(state => state.currency.selectedCurrency);
+  const { locale, updateLocale, updateMessages, SUPPORTED_LOCALES, DEFAULT_LOCALE } = useLocale();
+  const location = useLocation();
+  const history = useHistory();
+
   const user = ensureCurrentUser(currentUser);
+
+  // Language options - ambil dari SUPPORTED_LOCALES
+  const languages = SUPPORTED_LOCALES.map(localeCode => ({
+    code: localeCode,
+    name: languageNames[localeCode] || localeCode
+  }));
+
+  // Tentukan nama bahasa yang terpilih
+  const selectedLanguageName = languageNames[locale] || 'English';
 
   const extraLinks = customLinks.map((linkConfig, index) => {
     return (
@@ -90,9 +120,74 @@ const TopbarMobileMenu = props => {
     );
   });
 
+  const handleLanguageToggle = () => {
+    setIsLanguageOpen(!isLanguageOpen);
+    setIsCurrencyOpen(false);
+  };
+
+  const handleCurrencyToggle = () => {
+    setIsCurrencyOpen(!isCurrencyOpen);
+    setIsLanguageOpen(false);
+  };
+
+  // Ganti dengan logic sebenarnya untuk language
+  const handleLanguageSelect = (language) => {
+    const newLocale = language.code;
+    
+    if (newLocale === locale) {
+      setIsLanguageOpen(false);
+      return;
+    }
+
+    import(`../../../../translations/${newLocale}.json`)
+      .then(newMessages => {
+        updateMessages(newMessages.default);
+        updateLocale(newLocale);
+
+        if (newLocale === DEFAULT_LOCALE) {
+          localStorage.setItem('useDefaultLocale', 'true');
+        } else {
+          localStorage.setItem('useDefaultLocale', 'false');
+        }
+
+        const pathParts = location.pathname.split('/').filter(part => part !== '');
+
+        let newPath = location.pathname;
+        if (pathParts.length > 0 && SUPPORTED_LOCALES.includes(pathParts[0])) {
+          if (newLocale === DEFAULT_LOCALE) {
+            newPath = '/' + pathParts.slice(1).join('/') + location.search + location.hash;
+          } else {
+            pathParts[0] = newLocale;
+            newPath = '/' + pathParts.join('/') + location.search + location.hash;
+          }
+        } else if (newLocale !== DEFAULT_LOCALE) {
+          const cleanPath = location.pathname.startsWith('/')
+            ? location.pathname.substring(1)
+            : location.pathname;
+          newPath = `/${newLocale}/${cleanPath}${location.search}${location.hash}`;
+        }
+
+        history.push(newPath);
+        setIsLanguageOpen(false);
+      })
+      .catch(error => {
+        console.error('Failed to load translation', error);
+        setIsLanguageOpen(false);
+      });
+  };
+
+  const handleCurrencySelect = (currency) => {
+    dispatch(setCurrency(currency.code));
+    setIsCurrencyOpen(false);
+  };
+
+const showCurrencyToggler = true; 
+const showLanguageToggler = SUPPORTED_LOCALES?.length > 1 && currentPage !== 'EditListingPage';
+
   if (!isAuthenticated) {
     return (
       <div className={css.root}>
+        <div className={css.content}>
         {/* Add listing button */}
         <div className={css.addListingSection}>
           <NamedLink name="NewListingPage" className={css.createNewListingLink}>
@@ -114,14 +209,58 @@ const TopbarMobileMenu = props => {
 
         {/* Settings section */}
           <div className={css.settingsSection}>
-            <div className={css.settingItem}>
-              <span>Language</span>
-            </div>
-            <img src={vectorIcon} alt="description" className={css.vectorIcon}/>
-            <div className={css.settingItem}>
-              <span>Currency</span>
-            </div>
-            <img src={vectorIcon} alt="description" className={css.vectorIcon}/>
+            {/* Language Dropdown - hanya tampilkan jika showLanguageToggler true */}
+            {showLanguageToggler && (
+              <div className={css.dropdownContainer}>
+                <div className={css.settingItem} onClick={handleLanguageToggle}>
+                  <span className={css.settingLabel}>Language</span>
+                  <img src={vectorIcon} alt="description" className={classNames(css.vectorIcon, { [css.arrowOpen]: isLanguageOpen })}/>
+                </div>
+                {isLanguageOpen && (
+                  <div className={css.dropdownMenu}>
+                    {languages.map((lang) => (
+                      <div
+                        key={lang.code}
+                        className={classNames(css.dropdownItem, {
+                          [css.selectedItem]: locale === lang.code
+                        })}
+                        onClick={() => handleLanguageSelect(lang)}
+                      >
+                        {lang.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Currency Dropdown - hanya tampilkan jika showCurrencyToggler true */}
+            {showCurrencyToggler && (
+              <div className={css.dropdownContainer}>
+                <div className={css.settingItem} onClick={handleCurrencyToggle}>
+                  <span className={css.settingLabel}>Currency</span>
+                  <img src={vectorIcon} alt="description" className={classNames(css.vectorIcon, { [css.arrowOpen]: isCurrencyOpen })}/>
+                </div>
+                {isCurrencyOpen && (
+                  <div className={css.dropdownMenu}>
+                    {currencies.map((curr) => (
+                      <div
+                        key={curr.code}
+                        className={classNames(css.dropdownItem, {
+                          [css.selectedItem]: selectedCurrency === curr.code
+                        })}
+                        onClick={() => handleCurrencySelect(curr)}
+                      >
+                        <div className={css.currencyInfo}>
+                          <span className={css.currencyName}>{curr.name}</span>
+                          <span className={css.currencyCode}>{curr.code} - {curr.symbol}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
         {/* Custom links */}
@@ -130,6 +269,7 @@ const TopbarMobileMenu = props => {
             {extraLinks}
           </div>
         )}      
+        </div>
         </div>
     );
   }
@@ -189,6 +329,60 @@ const TopbarMobileMenu = props => {
           >
             <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
           </NamedLink>
+        </div>
+
+        {/* Tambahkan Language & Currency untuk user yang sudah login juga */}
+        <div className={css.settingsSection}>
+          {showLanguageToggler && (
+            <div className={css.dropdownContainer}>
+              <div className={css.settingItem} onClick={handleLanguageToggle}>
+                <span className={css.settingLabel}>Language</span>
+                <img src={vectorIcon} alt="description" className={classNames(css.vectorIcon, { [css.arrowOpen]: isLanguageOpen })}/>
+              </div>
+              {isLanguageOpen && (
+                <div className={css.dropdownMenu}>
+                  {languages.map((lang) => (
+                    <div
+                      key={lang.code}
+                      className={classNames(css.dropdownItem, {
+                        [css.selectedItem]: locale === lang.code
+                      })}
+                      onClick={() => handleLanguageSelect(lang)}
+                    >
+                      {lang.name}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {showCurrencyToggler && (
+            <div className={css.dropdownContainer}>
+              <div className={css.settingItem} onClick={handleCurrencyToggle}>
+                <span className={css.settingLabel}>Currency</span>
+                <img src={vectorIcon} alt="description" className={classNames(css.vectorIcon, { [css.arrowOpen]: isCurrencyOpen })}/>
+              </div>
+              {isCurrencyOpen && (
+                <div className={css.dropdownMenu}>
+                  {currencies.map((curr) => (
+                    <div
+                      key={curr.code}
+                      className={classNames(css.dropdownItem, {
+                        [css.selectedItem]: selectedCurrency === curr.code
+                      })}
+                      onClick={() => handleCurrencySelect(curr)}
+                    >
+                      <div className={css.currencyInfo}>
+                        <span className={css.currencyName}>{curr.name}</span>
+                        <span className={css.currencyCode}>{curr.code} - {curr.symbol}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {extraLinks.length > 0 && (
