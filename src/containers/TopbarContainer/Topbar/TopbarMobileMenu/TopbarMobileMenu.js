@@ -80,7 +80,6 @@ const TopbarMobileMenu = props => {
   const {
     isAuthenticated,
     currentPage,
-    inboxTab,
     currentUser,
     notificationCount = 0,
     customLinks,
@@ -308,14 +307,6 @@ const showLanguageToggler = SUPPORTED_LOCALES?.length > 1 && currentPage !== 'Ed
         </InlineTextButton>
 
         <div className={css.accountLinksWrapper}>
-          <NamedLink
-            className={classNames(css.inbox, currentPageClass(`InboxPage:${inboxTab}`))}
-            name="InboxPage"
-            params={{ tab: inboxTab }}
-          >
-            <FormattedMessage id="TopbarMobileMenu.inboxLink" />
-            {notificationCountBadge}
-          </NamedLink>
           {manageListingsLinkMaybe}
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('ProfileSettingsPage'))}
