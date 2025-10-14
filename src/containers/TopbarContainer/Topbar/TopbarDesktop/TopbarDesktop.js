@@ -17,8 +17,6 @@ import {
   Button,
 } from '../../../../components';
 
-import { setCurrency } from '../../../../ducks/currency.js';
-
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import CustomLinksMenu from './CustomLinksMenu/CustomLinksMenu';
 import LanguageCurrencyMenu from './LanguageCurrencyMenu';

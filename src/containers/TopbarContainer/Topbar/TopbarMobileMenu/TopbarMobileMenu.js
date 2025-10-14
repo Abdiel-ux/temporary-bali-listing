@@ -180,8 +180,9 @@ const TopbarMobileMenu = props => {
     setIsCurrencyOpen(false);
   };
 
-const showCurrencyToggler = true; 
-const showLanguageToggler = SUPPORTED_LOCALES?.length > 1 && currentPage !== 'EditListingPage';
+  const showCurrencyToggler = config ? config.multiCurrencyEnabled : (process.env?.REACT_APP_MULTICURRENCY_ENABLED === 'true');
+  const showLanguageToggler = SUPPORTED_LOCALES?.length > 1 && currentPage !== 'EditListingPage';
+
 
   if (!isAuthenticated) {
     return (
@@ -248,7 +249,7 @@ const showLanguageToggler = SUPPORTED_LOCALES?.length > 1 && currentPage !== 'Ed
                         className={classNames(css.dropdownItem, {
                           [css.selectedItem]: selectedCurrency === curr.code
                         })}
-                        onClick={() => handleCurrencySelect(curr)}
+                      onClick={() => handleCurrencySelect(curr)}
                       >
                         <div className={css.currencyInfo}>
                           <span className={css.currencyName}>{curr.name}</span>
@@ -362,7 +363,7 @@ const showLanguageToggler = SUPPORTED_LOCALES?.length > 1 && currentPage !== 'Ed
                       className={classNames(css.dropdownItem, {
                         [css.selectedItem]: selectedCurrency === curr.code
                       })}
-                      onClick={() => handleCurrencySelect(curr)}
+                    onClick={() => handleCurrencySelect(curr)}
                     >
                       <div className={css.currencyInfo}>
                         <span className={css.currencyName}>{curr.name}</span>

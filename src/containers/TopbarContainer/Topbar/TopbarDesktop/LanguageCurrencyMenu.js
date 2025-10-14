@@ -28,8 +28,7 @@ const LanguageCurrencyMenu = ({ config, currentPage }) => {
     dispatch(setCurrency(currency));
   };
 
-  const showCurrencyToggler =
-    config.multiCurrencyEnabled && ['LandingPage', 'search', 'ListingPage'].includes(currentPage);
+  const showCurrencyToggler = config ? config.multiCurrencyEnabled : (process.env?.REACT_APP_MULTICURRENCY_ENABLED === 'true');
   const showLanguageToggler = SUPPORTED_LOCALES.length > 1 && currentPage !== 'EditListingPage';
 
   if (!showLanguageToggler && !showCurrencyToggler) {
