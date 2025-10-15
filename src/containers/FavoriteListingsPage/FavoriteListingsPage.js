@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { FormattedMessage, injectIntl } from '../../util/reactIntl';
 import { isScrollingDisabled } from '../../ducks/ui.duck';
-import remove from './img/remove.png';
+import { FaTrash } from "react-icons/fa";
 
 import { unfavoriteListing, unfavoriteAllListings } from './FavoriteListingsPage.duck';
 
@@ -148,15 +148,7 @@ export const FavoriteListingsPageComponent = props => {
               <div>
   {selectedIds.length > 0 && (
     <div className={css.buttonGroup}>
-      <button
-        className={css.removeSelected}
-        onClick={handleUnfavoriteSelected}
-        title={`Unfavorite selected (${selectedIds.length})`}
-        style={{ marginLeft: '8px' }}
-      >
-        <img src={remove} alt="unfavorite selected" />
-      </button>
-    
+        <FaTrash className={css.removeSelected} onClick={handleUnfavoriteSelected}/>   
       <button
         onClick={handleUnfavoriteAll}
         className={css.removeAll}

@@ -1,8 +1,5 @@
 @import '../../styles/customMediaQueries.css';
 
-.root {
-}
-
 .messagePanel,
 .listingPanel {
   margin: 24px auto 0 auto;
@@ -32,6 +29,14 @@
   }
 }
 
+/* Responsive tweaks for heading */
+@media (max-width: 549px) {
+  .heading {
+    margin: 0 16px 16px 45px;
+    font-size: 18px;
+  }
+}
+
 .listingCards {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
@@ -39,25 +44,34 @@
   width: 100%;
   padding: 0 24px;
   justify-items: center;
+  max-width: 473px;
+  margin: 0 auto;
 
+  /* Tablet Portrait (550px - 767px) */
   @media (min-width: 550px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
+    max-width: 100%;
+    padding: 0 32px;
   }
 
+  /* Tablet Landscape / Medium viewport (768px+) */
   @media (--viewportMedium) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 28px;
+    padding: 0 40px;
+    max-width: 100%;
   }
 
+  /* Desktop / Large viewport */
   @media (--viewportLarge) {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     max-width: 1600px;
-    margin: 0 auto;
     padding: 0 48px;
   }
 
+  /* Extra Large viewport */
   @media (--viewportXLarge) {
     gap: 32px;
   }
@@ -65,13 +79,59 @@
 
 .removeAll {
   display: flex;
+  align-items: center;
+  gap: 8px;
   border: none;
   color: #eb2be8;
-  padding: 8px 0;
-  justify-content: flex-end;
-  margin-top: -80px;
+  padding: 8px 12px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
   margin-bottom: 40px;
-  margin-left: 1150px;
+  margin-left: auto;
+  margin-right: 24px;
+  margin-top: -48px;
+  width: fit-content;
+  align-self: flex-end;
+}
+
+/* Mobile responsive for removeAll */
+@media (max-width: 549px) {
+  .removeAll {
+    margin-left: auto;
+    margin-right: 60px;
+    margin-top: -48px;
+    padding: 6px 8px;
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+}
+
+/* Tablet responsive for removeAll */
+@media (min-width: 550px) and (max-width: 1023px) {
+  .removeAll {
+    margin-left: auto;
+    margin-right: 32px;
+    margin-top: -56px;
+    font-size: 14px;
+  }
+}
+
+@media (--viewportMedium) {
+  .removeAll {
+    margin-left: auto;
+    margin-right: 80px;
+    margin-top: -80px;
+  }
+}
+
+/* Desktop */
+@media (--viewportLarge) {
+  .removeAll {
+    margin-left: auto;
+    margin-right: 100px;
+    margin-top: -80px;
+  }
 }
 
 .removeAll:hover {
@@ -85,9 +145,22 @@
   position: relative;
 }
 
+/* Tablet adjustments for listing card */
+@media (min-width: 550px) and (max-width: 767px) {
+  .listingCard {
+    max-width: 100%;
+  }
+}
+
+@media (--viewportMedium) {
+  .listingCard {
+    max-width: 100%;
+  }
+}
+
 @media (--viewportLarge) {
   .listingCard {
-    max-width: 425px;
+    max-width: 400px;
   }
 }
 
@@ -102,6 +175,14 @@
   max-width: 1600px;
   padding: 0 24px;
 
+  @media (min-width: 550px) {
+    padding: 0 32px;
+  }
+
+  @media (--viewportMedium) {
+    padding: 0 40px;
+  }
+
   @media (--viewportLarge) {
     padding: 0 48px;
   }
@@ -109,8 +190,8 @@
 
 .selectCircle {
   position: absolute;
-  top: 30px;
-  left: 365px;
+  top: 16px;
+  left: calc(100% - 44px);
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -144,24 +225,70 @@
 
 .removeSelected {
   position: absolute;
-  top: 195px;
-  right: 88px;
+  right: 90px;
   z-index: 2;
   border: none;
   background: none;
+  height: 30px;
+  width: 30px;
+  fill: #f74df4;
+  margin-top: 2px;
 }
 
-.removeSelected img {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 12px;
-  padding: 0;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* Mobile adjustments */
+@media (max-width: 549px) {
+  .listingCard {
+    max-width: 100%;
+  }
+
+  .selectCircle {
+    top: 20px;
+    left: calc(100% - 55px);
+    width: 24px;
+    height: 24px;
+  }
+
+  .removeSelected {
+    right: -13px;
+    width: 24px;
+    height: 24px;
+  }
 }
 
-.removeSelected img:hover {
-  transform: scale(1.1);
+/* Tablet adjustments for select circle */
+@media (min-width: 550px) and (max-width: 1023px) {
+  .selectCircle {
+    left: calc(100% - 44px);
+    top: 16px;
+    width: 28px;
+    height: 28px;
+  }
+
+  .removeSelected {
+    right: 32px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (--viewportMedium) {
+  .selectCircle {
+    left: calc(100% - 44px);
+    top: 18px;
+  }
+
+  .removeSelected {
+    right: -80px;
+  }
+}
+
+@media (--viewportLarge) {
+  .selectCircle {
+    left: calc(100% - 44px);
+    top: 20px;
+  }
+
+  .removeSelected {
+    right: 135px;
+  }
 }
