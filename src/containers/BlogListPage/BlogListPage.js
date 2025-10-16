@@ -19,7 +19,7 @@ const getInfoFromText = text => {
   let date = dateMatch ? dateMatch[1] : '';
 
   if (date) {
-    const [month, day, year] = date.split('/'); // Assuming MM/DD/YY
+    const [month, day, year] = date.split('/');
     const dateObj = new Date(parseInt(`20${year}`), parseInt(month) - 1, parseInt(day));
     const dayOfMonth = dateObj.getDate();
     const monthName = dateObj.toLocaleString('default', { month: 'short' });
@@ -35,23 +35,25 @@ const getInfoFromText = text => {
 const BlogCard = ({ block }) => {
   const { date, description } = getInfoFromText(block.text?.content || '');
   const image = block.media?.image;
-  const imageVariants = image ? Object.keys(image.attributes?.variants || {}) : [];
+  
+  const imageVariants = image ? ['landscape400', 'landscape800'] : [];
+  const sizes = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px";
 
   const href = block.callToAction?.href.replace('/p', '/blog') || '#';
 
   return (
     <Link to={href} className={css.card}>
-      {image && (
+      {image && imageVariants.length > 0 && (
         <ResponsiveImage
           alt={block.media?.alt || block.title?.content}
           image={image}
           variants={imageVariants}
+          sizes={sizes}
           className={css.cardImage}
         />
       )}
       <div className={css.cardContent}>
         <div className={css.topMeta}>
-          {/* <div className={css.category}></div> */}
           <div className={css.meta}>
             <div className={css.author}>
               <UserIcon />
@@ -80,8 +82,6 @@ const BlogListPage = props => {
     shallowEqual
   );
 
-  // const [activeTab, setActiveTab] = useState('All');
-
   useEffect(() => {
     if (inProgress || pageAssetsData?.[pageId]) {
       return;
@@ -100,9 +100,6 @@ const BlogListPage = props => {
   const pageData = pageAssetsData?.[pageId]?.data;
   const blocks = pageData?.sections?.[0]?.blocks || [];
 
-  // TODO: Add tags for blog posts
-  // const tabs = ['All', 'Tips & tricks'];
-
   return (
     <div className={css.root}>
       <TopbarContainer />
@@ -111,17 +108,6 @@ const BlogListPage = props => {
         <h1 className={css.heroTitle}>Blog</h1>
       </div>
       <div className={css.content}>
-        {/* <div className={css.tabs}>
-          {tabs.map(tab => (
-            <button
-              key={tab}
-              className={activeTab === tab ? css.activeTab : css.tab}
-              onClick={() => setActiveTab(tab)}
-            >
-              {tab}
-            </button>
-          ))}
-        </div> */}
         <div className={css.grid}>
           {blocks.map((block, i) => (
             <BlogCard key={i} block={block} />
