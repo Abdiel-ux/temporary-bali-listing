@@ -120,6 +120,9 @@ const AboutUsPage = props => {
     const image = block.media?.image;
     const imageAlt = block.media?.alt;
 
+    // KEMBALIKAN KE CARA SEBELUMNYA - gunakan variasi yang tersedia di CMS
+    const imageVariants = image ? [ 'original400', 'original800' ] : [];
+
     if (i === 0) {
       return (
         <AnimatedWrapper key={i} className={css.section}>
@@ -132,7 +135,6 @@ const AboutUsPage = props => {
     }
     if (i === 1 || i === 7) {
       // Mission, Explore
-      const imageVariants = image ? Object.keys(image.attributes?.variants || {}) : [];
       return (
         <AnimatedWrapper key={i} className={css.missionParent}>
           <h2 className={`${css.missionTitle} ${css.mobileOnly}`}>{title}</h2>
@@ -172,7 +174,6 @@ const AboutUsPage = props => {
         .split('\n> ')
         .map(p => p.replace(/\\|\./g, '').trim());
 
-      const imageVariants = image ? Object.keys(image.attributes?.variants || {}) : [];
       return (
         <AnimatedWrapper key={i} className={css.missionParent}>
           <h3 className={`$ ${css.mobileOnly}`}>{title}</h3>
@@ -209,7 +210,6 @@ const AboutUsPage = props => {
         .split('\n> ')
         .map(p => p.replace(/\\|\./g, '').trim());
 
-      const imageVariants = image ? Object.keys(image.attributes?.variants || {}) : [];
       return (
         <AnimatedWrapper key={i} className={css.missionParent}>
           <h3 className={`${css.mobileOnly}`}>{title}</h3>

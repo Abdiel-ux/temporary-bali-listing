@@ -24,7 +24,7 @@ export const getInfoFromText = text => {
   let date = dateMatch ? dateMatch[1] : '';
 
   if (date) {
-    const [month, day, year] = date.split('/'); // Assuming MM/DD/YY
+    const [month, day, year] = date.split('/');
     const dateObj = new Date(parseInt(`20${year}`), parseInt(month) - 1, parseInt(day));
     const dayOfMonth = dateObj.getDate();
     const monthName = dateObj.toLocaleString('default', { month: 'short' });
@@ -51,17 +51,20 @@ export const getInfoFromText = text => {
 export const BlogCard = ({ block }) => {
   const { date, description, tag, author } = getInfoFromText(block.text?.content || '');
   const image = block.media?.image;
-  const imageVariants = image ? Object.keys(image.attributes?.variants || {}) : [];
+  
+  const imageVariants = image ? ['landscape400', 'landscape800'] : [];
+  const sizes = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px";
 
   const href = block.callToAction?.href.replace('/p', '/blog') || '#';
 
   return (
     <Link to={href} className={css.card}>
-      {image && (
+      {image && imageVariants.length > 0 && (
         <ResponsiveImage
           alt={block.media?.alt || block.title?.content}
           image={image}
           variants={imageVariants}
+          sizes={sizes}
           className={css.cardImage}
           sizes={"600px"}
         />
@@ -98,6 +101,13 @@ const BlogListPage = props => {
     state => state.hostedAssets || {},
     shallowEqual
   );
+
+  useEffect(() => {
+    if (inProgress || pageAssetsData?.[pageId]) {
+      return;
+    }
+    dispatch(loadData(params));
+  }, [dispatch, params, pageId, inProgress, pageAssetsData]);
 
   const [activeTag, setActiveTag] = useState('All');
 

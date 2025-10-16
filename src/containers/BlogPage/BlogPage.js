@@ -32,7 +32,20 @@ const Markdown = ({ content }) => {
 const BlogBlock = ({ block, isWide, hideImage = false }) => {
   const { media, title, text, callToAction } = block;
   const image = media?.image;
-  const imageVariants = image ? Object.keys(image.attributes?.variants || {}) : [];
+  let imageVariants = [];
+  let sizes = '';
+  
+  if (image) {
+    if (isWide) {
+      imageVariants = ['landscape400', 'landscape800', 'landscape1200'];
+      sizes = "(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 1200px";
+    } else {
+      imageVariants = ['landscape400', 'landscape800'];
+      sizes = "(max-width: 768px) 100vw, (max-width: 1024px) 70vw, 800px";
+    }
+  }
+
+  const imageWrapperClass = isWide ? css.wideImageWrapper : css.blockImageWrapper;
 
   const ctaButton =
     callToAction?.content &&
@@ -43,16 +56,15 @@ const BlogBlock = ({ block, isWide, hideImage = false }) => {
       </Link>
     ) : null;
 
-  const imageWrapperClass = isWide ? css.wideImageWrapper : css.blockImageWrapper;
-
   return (
     <div className={css.blogBlock}>
-      {!hideImage && image?.id && (
+      {image?.id && imageVariants.length > 0 && (
         <div className={imageWrapperClass}>
           <ResponsiveImage
-            alt={media.alt || title?.content}
+            alt={media.alt || title?.content || 'Blog image'}
             image={image}
             variants={imageVariants}
+            sizes={sizes}
             className={css.blockImage}
           />
         </div>
