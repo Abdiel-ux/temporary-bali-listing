@@ -47,7 +47,6 @@
   max-width: 473px;
   margin: 0 auto;
 
-  /* Tablet Portrait (550px - 767px) */
   @media (min-width: 550px) {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
@@ -55,7 +54,6 @@
     padding: 0 32px;
   }
 
-  /* Tablet Landscape / Medium viewport (768px+) */
   @media (--viewportMedium) {
     grid-template-columns: repeat(2, 1fr);
     gap: 28px;
@@ -63,80 +61,100 @@
     max-width: 100%;
   }
 
-  /* Desktop / Large viewport */
   @media (--viewportLarge) {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
-    max-width: 1600px;
+    max-width: 1335px;
     padding: 0 48px;
   }
 
-  /* Extra Large viewport */
   @media (--viewportXLarge) {
     gap: 32px;
   }
 }
 
-.removeAll {
+/* BUTTON GROUP - FIXED */
+.buttonGroup {
+  display: flex;
+    justify-content: flex-end;
+  padding: 0 24px;
+  margin-bottom: 20px;
+  margin-top: -40px;
+  flex-wrap: wrap;
+}
+
+.removeAll,
+.removeSelected {
   display: flex;
   align-items: center;
   gap: 8px;
   border: none;
   color: #eb2be8;
-  padding: 8px 12px;
+  padding: 10px 16px;
   background: transparent;
   cursor: pointer;
   font-size: 14px;
-  margin-bottom: 40px;
-  margin-left: auto;
-  margin-right: 24px;
-  margin-top: -48px;
-  width: fit-content;
-  align-self: flex-end;
+  border-radius: 4px;
+  transition: all 0.2s ease;
 }
 
-/* Mobile responsive for removeAll */
+.removeAll:hover,
+.removeSelected:hover {
+  text-decoration: underline #eb2be8;
+  color: black;
+  background: rgba(235, 43, 232, 0.1);
+}
+
+.removeIcon {
+  transition: transform 0.2s ease;
+  fill: #eb2be8;
+  height: 20px;
+  width: auto;
+}
+
+.removeSelected:hover .removeIcon,
+.removeAll:hover .removeIcon {
+  color: black;
+  transform: scale(1.1);
+}
+
+
+/* Mobile responsive for buttons */
 @media (max-width: 549px) {
-  .removeAll {
-    margin-left: auto;
-    margin-right: 60px;
-    margin-top: -48px;
-    padding: 6px 8px;
+  .buttonGroup {
+    margin-right: 18px;
+    margin-top: -50px;
+    margin-bottom: 16px;
+    justify-content: flex-end;
+  }
+  
+  .removeAll,
+  .removeSelected {
+    padding: 8px 12px;
     font-size: 13px;
-    margin-bottom: 12px;
   }
 }
 
-/* Tablet responsive for removeAll */
+/* Tablet responsive */
 @media (min-width: 550px) and (max-width: 1023px) {
-  .removeAll {
-    margin-left: auto;
-    margin-right: 32px;
-    margin-top: -56px;
-    font-size: 14px;
+  .buttonGroup {
+    padding: 0 32px;
+    margin-top: -48px;
   }
 }
 
 @media (--viewportMedium) {
-  .removeAll {
-    margin-left: auto;
-    margin-right: 80px;
-    margin-top: -80px;
+  .buttonGroup {
+    padding: 0 40px;
+    margin-top: -56px;
   }
 }
 
-/* Desktop */
 @media (--viewportLarge) {
-  .removeAll {
-    margin-left: auto;
-    margin-right: 100px;
-    margin-top: -80px;
+  .buttonGroup {
+    padding: 0 48px;
+    margin-top: -64px;
   }
-}
-
-.removeAll:hover {
-  text-decoration: underline #eb2be8;
-  color: black;
 }
 
 .listingCard {
@@ -145,7 +163,6 @@
   position: relative;
 }
 
-/* Tablet adjustments for listing card */
 @media (min-width: 550px) and (max-width: 767px) {
   .listingCard {
     max-width: 100%;
@@ -191,7 +208,7 @@
 .selectCircle {
   position: absolute;
   top: 16px;
-  left: calc(100% - 44px);
+  right: 16px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -223,18 +240,6 @@
   font-weight: bold;
 }
 
-.removeSelected {
-  position: absolute;
-  right: 90px;
-  z-index: 2;
-  border: none;
-  background: none;
-  height: 30px;
-  width: 30px;
-  fill: #f74df4;
-  margin-top: 2px;
-}
-
 /* Mobile adjustments */
 @media (max-width: 549px) {
   .listingCard {
@@ -242,53 +247,19 @@
   }
 
   .selectCircle {
-    top: 20px;
-    left: calc(100% - 55px);
-    width: 24px;
-    height: 24px;
-  }
-
-  .removeSelected {
-    right: -13px;
+    top: 12px;
+    right: 12px;
     width: 24px;
     height: 24px;
   }
 }
 
-/* Tablet adjustments for select circle */
+/* Tablet adjustments */
 @media (min-width: 550px) and (max-width: 1023px) {
   .selectCircle {
-    left: calc(100% - 44px);
     top: 16px;
+    right: 16px;
     width: 28px;
     height: 28px;
-  }
-
-  .removeSelected {
-    right: 32px;
-    width: 28px;
-    height: 28px;
-  }
-}
-
-@media (--viewportMedium) {
-  .selectCircle {
-    left: calc(100% - 44px);
-    top: 18px;
-  }
-
-  .removeSelected {
-    right: -80px;
-  }
-}
-
-@media (--viewportLarge) {
-  .selectCircle {
-    left: calc(100% - 44px);
-    top: 20px;
-  }
-
-  .removeSelected {
-    right: 135px;
   }
 }

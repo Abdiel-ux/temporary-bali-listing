@@ -145,20 +145,31 @@ export const FavoriteListingsPageComponent = props => {
           {/* Show content when not loading and no error */}
           {!queryInProgress && !queryFavoritesError && (
             <>
-              <div>
-  {selectedIds.length > 0 && (
-    <div className={css.buttonGroup}>
-        <FaTrash className={css.removeSelected} onClick={handleUnfavoriteSelected}/>   
-      <button
-        onClick={handleUnfavoriteAll}
-        className={css.removeAll}
-        title="Unfavorite all listings"
-      >
-        🗑️ Unfavorite All
-      </button>
-    </div>
-  )}
-</div>
+              {/* Button Group - Tetap muncul meski tidak ada yang terpilih */}
+              <div className={css.buttonGroup}>
+                {/* Tombol Unfavorite Selected - hanya muncul jika ada yang terpilih */}
+                {selectedIds.length > 0 && (
+                  <button
+                    onClick={handleUnfavoriteSelected}
+                    className={css.removeSelected}
+                    title={intl.formatMessage({ id: 'FavoriteListingsPage.unfavoriteSelected' })}
+                  >
+                    <FaTrash className={css.removeIcon} />
+                  </button>
+                )}
+                
+                {/* Tombol Unfavorite All - selalu muncul jika ada listings */}
+                {listings.length > 0 && (
+                  <button
+                    onClick={handleUnfavoriteAll}
+                    className={css.removeAll}
+                    title={intl.formatMessage({ id: 'FavoriteListingsPage.unfavoriteAll' })}
+                  >
+                      <FormattedMessage id="Unfavorite All" />
+                  </button>
+                )}
+              </div>
+
               {/* Listings grid */}
               <div className={css.listingCards}>
                 {listings.length > 0
