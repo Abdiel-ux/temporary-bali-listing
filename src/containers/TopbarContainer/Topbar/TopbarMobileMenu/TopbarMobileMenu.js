@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import { ACCOUNT_SETTINGS_PAGES } from '../../../../routing/routeConfiguration';
 import { FormattedMessage } from '../../../../util/reactIntl';
 import { ensureCurrentUser } from '../../../../util/data';
+import { checkIsCustomer } from '../../../../util/userHelpers';
 
 import {
   AvatarLarge,
@@ -147,12 +148,25 @@ const TopbarMobileMenu = props => {
     return currentPage === page || isAccountSettingsPage || isInboxPage ? css.currentPage : null;
   };
 
+  // Hanya tampilkan ManageListings untuk provider
   const manageListingsLinkMaybe = showCreateListingsLink ? (
     <NamedLink
       className={classNames(css.navigationLink, currentPageClass('ManageListingsPage'))}
       name="ManageListingsPage"
     >
+      <span className={css.menuItemBorder} />
       <FormattedMessage id="TopbarMobileMenu.yourListingsLink" />
+    </NamedLink>
+  ) : null;
+
+  // Hanya tampilkan Favorite Listings untuk customer
+  const favoriteListingsLinkMaybe = checkIsCustomer(currentUser) ? (
+    <NamedLink
+      className={classNames(css.navigationLink, currentPageClass('FavoriteListingsPage'))}
+      name="FavoriteListingsPage"
+    >
+      <span className={css.menuItemBorder} />
+      <FormattedMessage id="TopbarMobileMenu.favoriteListingsPage" />
     </NamedLink>
   ) : null;
 
@@ -173,6 +187,7 @@ const TopbarMobileMenu = props => {
             name="InboxPage"
             params={{ tab: inboxTab }}
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.inboxLink" />
             {notificationCountBadge}
           </NamedLink>
@@ -181,20 +196,17 @@ const TopbarMobileMenu = props => {
             className={classNames(css.navigationLink, currentPageClass('ProfileSettingsPage'))}
             name="ProfileSettingsPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.profileSettingsLink" />
           </NamedLink>
           <NamedLink
             className={classNames(css.navigationLink, currentPageClass('AccountSettingsPage'))}
             name="AccountSettingsPage"
           >
+            <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarMobileMenu.accountSettingsLink" />
           </NamedLink>
-          <NamedLink
-            className={classNames(css.navigationLink, currentPageClass('FavoriteListingsPage'))}
-            name="FavoriteListingsPage"
-          >
-            <FormattedMessage id="TopbarMobileMenu.favoriteListingsPage" />
-          </NamedLink>
+          {favoriteListingsLinkMaybe}
         </div>
         <div className={css.customLinksWrapper}>{extraLinks}</div>
         <div className={css.spacer} />

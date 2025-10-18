@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage, injectIntl } from '../../util/reactIntl';
 import { isScrollingDisabled } from '../../ducks/ui.duck';
 import { FaTrash } from "react-icons/fa";
+import { checkIsProvider } from '../../util/userHelpers';
 
 import { unfavoriteListing, unfavoriteAllListings } from './FavoriteListingsPage.duck';
 
@@ -19,6 +20,7 @@ import {
 
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 import css from './FavoriteListingsPage.module.css';
 
@@ -32,7 +34,12 @@ export const FavoriteListingsPageComponent = props => {
     scrollingDisabled,
     intl,
     dispatch,
+    currentUser,
   } = props;
+
+  if (currentUser && checkIsProvider(currentUser)) {
+    return <NotFoundPage staticContext={props.staticContext} />;
+  }
 
   const [selectedIds, setSelectedIds] = useState([]);
 
