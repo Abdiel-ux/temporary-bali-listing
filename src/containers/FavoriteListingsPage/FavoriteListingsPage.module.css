@@ -56,15 +56,12 @@
   @media (--viewportMedium) {
     grid-template-columns: repeat(2, 1fr);
     gap: 28px;
-    padding: 0 40px;
     max-width: 100%;
   }
 
   @media (--viewportLarge) {
     grid-template-columns: repeat(3, 1fr);
     gap: 40px;
-    max-width: 1335px;
-    padding: 0 48px;
   }
 
   @media (--viewportXLarge) {
