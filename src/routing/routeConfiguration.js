@@ -15,15 +15,6 @@ const pageDataLoadingAPI = getPageDataLoadingAPI();
 const AuthenticationPage = loadable(() => import(/* webpackChunkName: "AuthenticationPage" */ '../containers/AuthenticationPage/AuthenticationPage'));
 const CheckoutPage = loadable(() => import(/* webpackChunkName: "CheckoutPage" */ '../containers/CheckoutPage/CheckoutPage'));
 const CMSPage = loadable(() => import(/* webpackChunkName: "CMSPage" */ '../containers/CMSPage/CMSPage'));
-const FAQPage = loadable(() =>
-  import(/* webpackChunkName: "FAQPage" */ '../containers/FAQPage/FAQPage')
-);
-const AboutUsPage = loadable(() =>
-  import(/* webpackChunkName: "AboutUsPage" */ '../containers/AboutUsPage/AboutUsPage')
-);
-const BlogPage = loadable(() =>
-  import(/* webpackChunkName: "BlogPage" */ '../containers/BlogListPage/BlogListPage')
-);
 const SingularBlogPage = loadable(() =>
   import(/* webpackChunkName: "SingularBlogPage" */ '../containers/BlogPage/BlogPage')
 );
@@ -92,12 +83,6 @@ const routeConfiguration = (layoutConfig, accessControlConfig) => {
       name: 'LandingPage',
       component: LandingPage,
       loadData: pageDataLoadingAPI.LandingPage.loadData,
-    },
-    {
-      path: '/blog',
-      name: 'BlogPage',
-      component: BlogPage,
-      loadData: pageDataLoadingAPI.BlogPage.loadData,
     },
     {
       path: '/p/:pageId',

@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const apiRouter = require('./apiRouter');
+const shortUrlRouter = require('./redirectRouter');
 const wellKnownRouter = require('./wellKnownRouter');
 const webmanifestResourceRoute = require('./resources/webmanifest');
 const robotsTxtRoute = require('./resources/robotsTxt');
@@ -30,6 +31,9 @@ app.use(
 app.use(cookieParser());
 app.use('/.well-known', wellKnownRouter);
 app.use('/api', apiRouter);
+
+// URL Shortener redirect route
+app.use('/sh', shortUrlRouter);
 
 // Generate web app manifest
 // When developing with "yarn run dev",

@@ -1,10 +1,8 @@
 import classNames from 'classnames';
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 
 import { useConfiguration } from '../../context/configurationContext';
 
-import Slider from 'react-slick';
 import { IconCollection, NamedLink } from '../../components';
 import { displayPrice } from '../../util/configHelpers';
 import { ensureListing, ensureUser } from '../../util/data';
@@ -15,77 +13,13 @@ import { createSlug } from '../../util/urlHelpers';
 import { Icon } from '../../containers/PageBuilder/SectionBuilder/SectionArticle/PropertyCards';
 import { capitaliseFirstLetter, sortTags } from '../../util/helper';
 import css from './ListingCard.module.css';
-import { handleToggleFavorites } from '../../util/userFavorites';
+import { handleToggleFavorites, isFavorite as isFavoriteUtil } from '../../util/userFavorites';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import useDisableBodyScrollOnSwipe from '../../util/useDisableBodyScrollOnSwipe';
+import ImageSlider from '../ImageSlider/ImageSlider';
 
 const MIN_LENGTH_FOR_LONG_WORDS = 10;
-
-// react-slick settings
-const sliderSettings = {
-  dots: true,
-  arrows: true,
-  infinite: false,
-  speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  lazyLoad: 'progressive',
-  appendDots: dots => (
-    <div className={css.dots}>
-      <span className={css.dotsCounter}>
-        {dots.findIndex(
-          dot => dot.props.className && dot.props.className.includes('slick-active')
-        ) + 1}
-        /{dots.length}
-      </span>
-    </div>
-  ),
-  customPaging: i => <button className={css.dot}>{i + 1}</button>,
-  nextArrow: (
-    <button className={css.arrowRight} type="button" aria-label="Next image">
-      <span className={css.arrowIcon}>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="24" height="24" rx="12" fill="white" />
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M14.4965 11.6908C14.5784 11.7728 14.6244 11.884 14.6244 12C14.6244 12.1159 14.5784 12.2271 14.4965 12.3091L10.1215 16.6841C10.0386 16.7614 9.92887 16.8035 9.81552 16.8015C9.70218 16.7995 9.59404 16.7536 9.51388 16.6734C9.43373 16.5932 9.38781 16.4851 9.38581 16.3718C9.38381 16.2584 9.42588 16.1487 9.50316 16.0658L13.569 12L9.50316 7.93412C9.42588 7.85118 9.38381 7.74149 9.38581 7.62815C9.38781 7.5148 9.43373 7.40666 9.51388 7.32651C9.59404 7.24635 9.70218 7.20043 9.81552 7.19843C9.92887 7.19643 10.0386 7.2385 10.1215 7.31578L14.4965 11.6908Z"
-            fill="#231F20"
-          />
-        </svg>
-      </span>
-    </button>
-  ),
-  prevArrow: (
-    <button className={css.arrowLeft} type="button" aria-label="Previous image">
-      <span className={css.arrowIcon}>
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="24" height="24" rx="12" transform="matrix(-1 0 0 1 24 0)" fill="white" />
-          <path
-            fillRule="evenodd"
-            clipRule="evenodd"
-            d="M9.5035 11.6908C9.42157 11.7728 9.37556 11.884 9.37556 12C9.37556 12.1159 9.42157 12.2271 9.5035 12.3091L13.8785 16.6841C13.9614 16.7614 14.0711 16.8035 14.1845 16.8015C14.2978 16.7995 14.406 16.7536 14.4861 16.6734C14.5663 16.5932 14.6122 16.4851 14.6142 16.3718C14.6162 16.2584 14.5741 16.1487 14.4968 16.0658L10.431 12L14.4968 7.93412C14.5741 7.85118 14.6162 7.74149 14.6142 7.62815C14.6142 7.5148 14.5663 7.40666 14.4861 7.32651C14.406 7.24635 14.2978 7.20043 14.1845 7.19843C14.0711 7.19643 13.9614 7.2385 13.8785 7.31578L9.5035 11.6908Z"
-            fill="#231F20"
-          />
-        </svg>
-      </span>
-    </button>
-  ),
-};
 
 // Helper function to get best available image variant
 const getBestImageUrl = (img) => {
@@ -95,7 +29,7 @@ const getBestImageUrl = (img) => {
   
   // Priority order for variants
   const variantPriority = [
-    'landscape-crop2x',
+    'listing-card',
     'scaled-small',
   ];
   
@@ -254,15 +188,6 @@ export const ListingCard = props => {
     onUpdateFavorites,
     showWishlistButton = true,
   } = props;
-  const setSliderNode = useDisableBodyScrollOnSwipe();
-  const sliderRef = useCallback(
-    element => {
-      if (element && element.innerSlider && element.innerSlider.list) {
-        setSliderNode(element.innerSlider.list);
-      }
-    },
-    [setSliderNode]
-  );
   const classes = classNames(rootClassName || css.root, className);
   const currentListing = ensureListing(listing);
 
@@ -302,20 +227,12 @@ export const ListingCard = props => {
   // ✅ FIXED: Process images with proper fallback chain
   const imagesUrls = currentListing.images?.map(img => getBestImageUrl(img)).filter(Boolean) || [];
 
-  const cardSliderSettings = {
-    ...sliderSettings,
-    infinite: imagesUrls.length > 1,
-  };
+  const isFavorite = isFavoriteUtil(currentUser, id);
 
-  const dispatch = useDispatch();
-  const isFavorite = currentUser?.attributes.profile.privateData.favorites?.includes(id);
-
-  // SIMPLIFIED: Gunakan handleToggleFavorites langsung tanpa custom onUpdate
   const onToggleFavorites = e => {
     e.preventDefault();
     e.stopPropagation();
 
-    // Panggil util handleToggleFavorites tanpa parameter onUpdateFavorites
     handleToggleFavorites({
       location: routeLocation,
       history,
@@ -338,11 +255,7 @@ export const ListingCard = props => {
       )}
 
       <div className={css.imageWrapper}>
-        <Slider ref={sliderRef} {...cardSliderSettings} className={css.slider}>
-          {imagesUrls.map((img, imgIdx) => (
-            <img src={img} alt={title} className={css.image + ' ' + css.imageFade} key={imgIdx} />
-          ))}
-        </Slider>
+        <ImageSlider loop={imagesUrls.length > 1} images={imagesUrls} title={title} />
       </div>
       <div className={css.info}>
         <div className={css.tags}>

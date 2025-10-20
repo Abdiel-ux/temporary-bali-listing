@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import loadable from '@loadable/component';
 
 import { bool, object } from 'prop-types';
@@ -10,10 +10,7 @@ import { propTypes } from '../../util/types';
 
 import FallbackPage from './FallbackPage';
 import { ASSET_NAME } from './LandingPage.duck';
-
-const PageBuilder = loadable(() =>
-  import(/* webpackChunkName: "PageBuilder" */ '../PageBuilder/PageBuilder')
-);
+import PageBuilder from '../PageBuilder/PageBuilder';
 
 export const LandingPageComponent = props => {
   const { pageAssetsData, inProgress, error } = props;

@@ -17,6 +17,9 @@
 .leftColumn {
   width: 444px;
   padding-top: 80px;
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
 }
 
 .rightColumn {

@@ -4,7 +4,29 @@ import { FormattedMessage } from '../../util/reactIntl';
 
 import NoImageIcon from './NoImageIcon';
 import css from './ResponsiveImage.module.css';
+import heroImage from '../../assets/balilisting-hero.webp';
+import heroImage1024 from '../../assets/balilisting-hero-1024.webp';
 
+/**
+ * Responsive image
+ * Usage without sizes:
+ *   <ResponsiveImage
+ *     alt="ListingX"
+ *     image={imageDataFromSDK}
+ *     variants={['landscape-crop', 'landscape-crop2x']}
+ *   />
+ *
+ * @component
+ * @param {Object} props
+ * @param {string?} props.className add more style rules in addition to components own css.root
+ * @param {string?} props.rootClassName overwrite components own css.root
+ * @param {string} props.alt alt attribute for the img element
+ * @param {Object?} props.image API entity (image or imageAsset)
+ * @param {Array<string>} props.variants
+ * @param {string?} props.sizes sizes attribute for the img element (to be used with srcset)
+ * @param {string?} props.noImageMessage message to be shown, when no image was given
+ * @returns {JSX.Element} responsive image
+ */
 const ResponsiveImage = props => {
   const {
     className,
@@ -96,15 +118,21 @@ const ResponsiveImage = props => {
     ...rest,
   };
 
-  return (
-    <img 
-      alt={alt} 
-      loading="lazy"
-      decoding="async"
-      fetchpriority={fromSectionHero ? "high" : null}
-      {...imgProps} 
-    />
-  );
+  // Manual LCP optimization for landing page
+  if (fromSectionHero) {
+    return (
+      <img
+        alt={alt}
+        {...imgProps}
+        src={heroImage}
+        srcSet={`${heroImage1024} 800w, ${heroImage} 1920w`}
+        sizes="100vw"
+        fetchpriority="high"
+      />
+    );
+  }
+
+  return <img alt={alt} {...imgProps} />;
 };
 
 export default ResponsiveImage;

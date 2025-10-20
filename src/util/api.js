@@ -148,3 +148,14 @@ export const createUserWithIdp = body => {
 export const getPresignedUrlR2 = body => {
   return post('/api/r2/generate-presigned-url', body);
 };
+
+// Create a shortened URL
+//
+// This endpoint creates a short URL for the given long URL.
+// The short URL will be in the format: hostname/shortCode
+//
+// See `server/api/url-shortener/urlShortenerRouter.js` for implementation details.
+export const createShortUrl = body => {
+  
+  return post('/api/url-shortener', body);
+};

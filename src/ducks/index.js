@@ -16,6 +16,7 @@ import stripeConnectAccount from './stripeConnectAccount.duck';
 import user from './user.duck';
 import cookieConsent from './cookieConsent.duck';
 import currency from './currency';
+import locale from './locale.duck';
 
 export {
   auth,
@@ -30,4 +31,5 @@ export {
   user,
   cookieConsent,
   currency,
+  locale,
 };

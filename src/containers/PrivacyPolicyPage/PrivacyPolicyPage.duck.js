@@ -3,11 +3,13 @@ import { constructLocalizedPageAssets } from '../../util/localeAssetUtils';
 
 export const ASSET_NAME = 'privacy-policy';
 
-export const loadData = (params, search, config, match) => dispatch => {
+export const loadData = (params, search, config, match, currentLocale) => dispatch => {
   const assetMap = {
     privacyPolicy: ASSET_NAME,
   };
 
-  const pageAsset = constructLocalizedPageAssets(assetMap, match);
+  const pageAsset = constructLocalizedPageAssets(assetMap, match, currentLocale);
+  
   return dispatch(fetchPageAssets(pageAsset, true));
 };
+

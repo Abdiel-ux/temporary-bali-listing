@@ -1,4 +1,4 @@
-svg {
+.section svg {
   fill: transparent;
 }
 
@@ -57,8 +57,13 @@ svg {
 }
 
 .optionButton:hover {
-  background-color: #eaeaea;
-  border-color: #eaeaea;
+  background-color: #f74df4;
+  border-color: #f74df4;
+  color: #fff;
+}
+
+.optionButton:hover .currencyCode {
+  color: #fff;
 }
 
 .selected {
@@ -86,4 +91,15 @@ svg {
   font-size: 12px;
   font-weight: 400;
   color: #818181;
+  transition: all 0.2s ease-in-out;
 }
+
+.menuIconBottom {
+  background-color: rgba(0, 0, 0, 0.062);
+  border-radius: 50%;
+} 
+
+.menuIcon svg {
+  fill: transparent;
+}
+  

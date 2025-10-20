@@ -257,3 +257,40 @@ exports.convertDecimalJSToNumber = decimalValue => {
 
   return decimalValue.toNumber();
 };
+
+
+const FETCH_CONVERSION_RATE_REQUEST = 'app/currency/FETCH_CONVERSION_RATE_REQUEST';
+const FETCH_CONVERSION_RATE_SUCCESS = 'app/currency/FETCH_CONVERSION_RATE_SUCCESS';
+const FETCH_CONVERSION_RATE_ERROR = 'app/currency/FETCH_CONVERSION_RATE_ERROR';
+
+const fetchConversionRateRequest = () => ({ type: FETCH_CONVERSION_RATE_REQUEST });
+const fetchConversionRateSuccess = rate => ({
+  type: FETCH_CONVERSION_RATE_SUCCESS,
+  payload: rate,
+});
+const fetchConversionRateError = error => ({
+  type: FETCH_CONVERSION_RATE_ERROR,
+  payload: error,
+});
+
+/**
+ * This is a thunk that can be dispatched on the server for pre-rendering.
+ * It fetches the currency conversion rate and dispatches actions to fill the Redux store.
+ */
+const fetchConversionRate = () => (dispatch, getState, sdk) => {
+  dispatch(fetchConversionRateRequest());
+  return sdk.currency.getConversionRate()
+    .then(response => {
+      dispatch(fetchConversionRateSuccess(response.data));
+      return response;
+    })
+    .catch(e => {
+      dispatch(fetchConversionRateError(e));
+      // The dataLoader has a generic error handler, so we can throw here.
+      throw e;
+    });
+};
+
+module.exports = {
+  fetchConversionRate,
+};

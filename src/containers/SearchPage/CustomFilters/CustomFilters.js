@@ -412,14 +412,12 @@ function CustomFilters({
     onUpdateCurrentQueryParams({
       price: range.toString(),
     });
-    // setSimplePriceRange(range);
   };
 
   const handleLandSizeRangeChange = range => {
     onUpdateCurrentQueryParams({
       pub_landsize: range.toString(),
     });
-    // setLandSizeRange(range);
   };
 
   const handleBedroomsChange = value => {

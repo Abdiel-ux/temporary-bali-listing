@@ -94,7 +94,7 @@ export const IncludeScripts = props => {
     );
   } else if (isGoogleMapsInUse) {
     // Add Google Maps library
-    deferredMapLibraries.push(
+    mapLibraries.push(
       <script
         id={GOOGLE_MAPS_SCRIPT_ID}
         key="GoogleMapsApi"

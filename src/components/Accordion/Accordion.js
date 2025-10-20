@@ -16,10 +16,8 @@ const Accordion = props => {
       const element = contentRefs.current[index];
       if (element) {
         if (index === activeIndex) {
-          // Set height to actual content height for animation
           element.style.height = element.scrollHeight + 'px';
         } else {
-          // When not active, set to 0 to collapse
           element.style.height = '0px';
         }
       }

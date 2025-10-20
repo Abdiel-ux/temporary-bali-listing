@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import { propTypes } from '../../../util/types';
 import { ListingCard, PaginationLinks } from '../../../components';
+import LazyRender from '../../../components/LazyRender/LazyRender';
 
 import css from './SearchResultsPanel.module.css';
 
@@ -75,17 +76,26 @@ const SearchResultsPanel = props => {
   return (
     <div className={classes}>
       <div className={isMapVariant ? css.listingCardsMapVariant : css.listingCards}>
-        {listings.map(l => (
-          <ListingCard
-            className={css.listingCard}
-            key={l.id.uuid}
-            listing={l}
-            renderSizes={cardRenderSizes(isMapVariant)}
-            setActiveListing={setActiveListing}
-            currentUser={currentUser}
-            onUpdateFavorites={onUpdateFavorites}
-          />
-        ))}
+        {listings.map((l, i) => {
+          const cardProps = {
+            className: css.listingCard,
+            listing: l,
+            renderSizes: cardRenderSizes(isMapVariant),
+            setActiveListing: setActiveListing,
+            currentUser: currentUser,
+            onUpdateFavorites: onUpdateFavorites,
+          };
+
+          if (i < 6) {
+            return <ListingCard key={l.id.uuid} {...cardProps} />;
+          } else {
+            return (
+              <LazyRender key={l.id.uuid} placeholderHeight={400}>
+                <ListingCard {...cardProps} />
+              </LazyRender>
+            );
+          }
+        })}
         {props.children}
       </div>
       {paginationLinks}

@@ -1,5 +1,27 @@
+import difference from 'lodash/difference';
 import { subUnitDivisors } from '../config/settingsCurrency';
 import { getSupportedProcessesInfo, isBookingProcessAlias } from '../transactions/transaction';
+
+// If translation key is missing from a locale's messages,
+// corresponding key will be added from `defaultMessages` (en.json)
+// to prevent missing translation key errors.
+export const addMissingTranslations = (sourceLangTranslations, targetLangTranslations) => {
+  const sourceKeys = Object.keys(sourceLangTranslations);
+  const targetKeys = Object.keys(targetLangTranslations);
+
+  // if there's no translations defined for target language, return source translations
+  if (targetKeys.length === 0) {
+    return sourceLangTranslations;
+  }
+  const missingKeys = difference(sourceKeys, targetKeys);
+
+  const addMissingTranslation = (translations, missingKey) => ({
+    ...translations,
+    [missingKey]: sourceLangTranslations[missingKey],
+  });
+
+  return missingKeys.reduce(addMissingTranslation, targetLangTranslations);
+};
 
 // Generic helpers for validating config values
 

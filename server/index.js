@@ -36,6 +36,7 @@ const passport = require('passport');
 
 const auth = require('./auth');
 const apiRouter = require('./apiRouter');
+const shortUrlRouter = require('./redirectRouter');
 const wellKnownRouter = require('./wellKnownRouter');
 const webmanifestResourceRoute = require('./resources/webmanifest');
 const robotsTxtRoute = require('./resources/robotsTxt');
@@ -220,6 +221,9 @@ app.use(passport.initialize());
 // Server-side routes that do not render the application
 app.use('/api', apiRouter);
 
+// URL Shortener redirect route
+app.use('/sh', shortUrlRouter);
+
 const noCacheHeaders = {
   'Cache-control': 'no-cache, no-store, must-revalidate',
 };
@@ -268,8 +272,42 @@ app.get('*', async (req, res) => {
   dataLoader
     .loadData(req.url, sdk, appInfo)
     .then(data => {
+      const { preloadedState, hostedConfig } = data;
+      const { getSupportedLocales } = require('../src/util/translation');
+      const SUPPORTED_LOCALES = getSupportedLocales();
+
+      const getLocaleFromPath = (pathname, supportedLocales) => {
+        const pathParts = pathname.split('/').filter(part => part !== '');
+        if (pathParts.length > 0 && supportedLocales.includes(pathParts[0])) {
+          return pathParts[0];
+        }
+        return null;
+      };
+
+      const locale = getLocaleFromPath(req.url, SUPPORTED_LOCALES) || 'en';
+      let translations;
+      try {
+        translations = require(`../src/translations/${locale}.json`);
+      } catch (e) {
+        translations = require('../src/translations/en.json');
+      }
+
+      const updatedPreloadedState = {
+        ...preloadedState,
+        locale: {
+          locale: locale,
+          messages: translations,
+        },
+      };
+
+      const updatedData = {
+        preloadedState: updatedPreloadedState,
+        translations,
+        hostedConfig,
+      };
+
       const cspNonce = cspEnabled ? res.locals.cspNonce : null;
-      return renderer.render(req.url, context, data, renderApp, webExtractor, cspNonce);
+      return renderer.render(req.url, context, updatedData, renderApp, webExtractor, cspNonce);
     })
     .then(html => {
       if (dev) {

@@ -170,6 +170,10 @@ function PriceSelector({ selectedPeriod, onPeriodChange, priceRange, onPriceRang
         </h3>
         <p className={css.description}>
           <FormattedMessage id="PriceFilter.description" />
+          <>
+            {currency === 'IDR' && <FormattedMessage id={'PriceFilter.inMillions'} />}
+            {currency}{')'}
+          </>
         </p>
       </div>
 

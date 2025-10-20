@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from '../../../../util/reactIntl';
-import { Link as BaseLink } from './index';
+import { Link as BaseLink } from 'react-router-dom';
 
 const TranslatedLink = ({ children, ...props }) => {
   const intl = useIntl();

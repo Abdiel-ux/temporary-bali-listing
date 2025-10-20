@@ -22,6 +22,8 @@ const { authenticateFacebook, authenticateFacebookCallback } = require('./api/au
 const { authenticateGoogle, authenticateGoogleCallback } = require('./api/auth/google');
 const { generatePresignedUrlR2 } = require('./api/R2');
 const { getConversionRate } = require('./api/currency');
+// URL Shortener endpoints
+const urlShortenerRouter = require('./api/url-shortener/urlShortenerRouter');
 
 const router = express.Router();
 
@@ -87,5 +89,8 @@ router.post('/r2/generate-presigned-url', generatePresignedUrlR2);
 
 // currency conversion endpoint
 router.get('/currency/conversion-rate', getConversionRate);
+
+// URL Shortener endpoints
+router.use('/url-shortener', urlShortenerRouter);
 
 module.exports = router;

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { useLocale, languageNames } from '../../../../context/localeContext';
+import { useLocale, languageNames } from '../../../../../context/localeContext';
 
 const LanguageSelector = ({ isMobile = false }) => {
   const { locale, updateLocale, updateMessages, SUPPORTED_LOCALES, DEFAULT_LOCALE } = useLocale();
@@ -39,7 +39,7 @@ const LanguageSelector = ({ isMobile = false }) => {
       return;
     }
 
-    import(`../../../../translations/${newLocale}.json`)
+    import(`../../../../../translations/${newLocale}.json`)
       .then(newMessages => {
         updateMessages(newMessages.default);
         updateLocale(newLocale);

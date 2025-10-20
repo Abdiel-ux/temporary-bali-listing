@@ -56,3 +56,21 @@ export const handleToggleFavorites = parameters => isFavorite => {
     onUpdateFavorites(payload);
   }
 };
+
+/**
+ * Checks if a listing is in the user's favorites.
+ *
+ * @param {Object} currentUser The current user object.
+ * @param {String} listingId The ID of the listing to check.
+ * @returns {Boolean} `true` if the listing is a favorite, `false` otherwise.
+ */
+export const isFavorite = (currentUser, listingId) => {
+  if (!currentUser) {
+    return false;
+  }
+  const {
+    attributes: { profile },
+  } = currentUser;
+  const { favorites = [] } = profile.privateData || {};
+  return favorites.includes(listingId);
+};

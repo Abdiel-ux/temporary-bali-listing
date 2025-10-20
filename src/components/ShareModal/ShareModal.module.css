@@ -1,0 +1,236 @@
+/*
+ * In this file, we are using composes to inherit styles from Modal.module.css and overriding the align-items property to center the modal.
+ */
+.centeredScrollLayer {
+  composes: scrollLayer from '../Modal/Modal.module.css';
+
+  align-items: center !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
+
+}
+
+.customCloseButton {
+  position: absolute;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+}
+
+.customCloseButton:hover {
+  background-color: #e0e0e0;
+}
+
+.successTooltip,
+.errorTooltip {
+  position: absolute;
+  top: 0%;
+  margin-bottom: 6px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 3;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.successTooltip {
+  background-color: #ff4ff7;
+  color: white;
+}
+
+.errorTooltip {
+  background-color: #f44336;
+}
+
+.shareModalContent {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 574px;
+  height: 304px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.2s ease-out;
+  pointer-events: auto;
+}
+
+.shareButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.shareModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.headerSpacer {
+  width: 32px;
+  height: 32px;
+}
+
+.headerCenter {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: Istok Web;
+}
+
+.headerCenter svg {
+  fill: transparent !important;
+}
+
+.shareModalHeaderContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.shareModalIcon {
+  width: 19px;
+  height: 19px;
+  padding-bottom: 1px;
+}
+
+.shareModalLabel {
+  font-size: 18px;
+  font-weight: 700;
+  color: black;
+  padding-top: 2px;
+}
+
+.shareModalDescription {
+  text-align: center;
+  color: #8d8d8d;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 130%;
+  padding: 26px 0 12px 0;
+}
+
+button {
+  font-family: Mulish;
+}
+
+.shareModalGrid {
+  font-family: 'Mulish';
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.shareOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  padding: 0px;
+  transition: transform 0.2s ease;
+  border-radius: 8px;
+}
+
+.shareOption:hover {
+  transform: scale(1.05);
+}
+
+.shareOption:active {
+  transform: scale(0.95);
+}
+
+.shareOptionIcon {
+  width: 64px;
+  height: 64px;
+  display: flex !important;
+  background-color: #FBA6F933;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.shareOption:hover .shareOptionIcon {
+  background: #fce2ef;
+}
+
+.shareOptionLabel {
+  font-size: 12px;
+  color: #8d8d8d;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .shareModalContent {
+    margin: 16px;
+    padding: 20px;
+    max-width: none;
+  }
+
+  .shareOptionsGrid {
+    gap: 12px;
+  }
+
+  .shareOptionIcon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .shareModalDescription {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+@media (max-width: 360px) {
+  .shareOptionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .shareOptionIcon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.shareModalScrollLayer {
+  flex-grow: 1;
+  display: flex;
+
+  background-color: var(--colorWhite);
+
+  min-height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media (--viewportMedium) {
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    background-image: none;
+  }
+}

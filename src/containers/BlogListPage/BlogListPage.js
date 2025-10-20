@@ -6,15 +6,20 @@ import NotFoundPage from '../NotFoundPage/NotFoundPage.js';
 import TopbarContainer from '../TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 import ResponsiveImage from '../../components/ResponsiveImage/ResponsiveImage.js';
-import { IconDate } from '../../components/index.js';
-import { loadData } from './BlogListPage.duck.js';
+import { IconDate, Page, LayoutSingleColumn } from '../../components/index.js';
+import { useConfiguration } from '../../context/configurationContext';
+import { extractPageMetadata } from '../../util/seo';
 
 import css from './BlogListPage.module.css';
 import { ReactComponent as Spiral } from '../../assets/about-us-spiral.svg';
 import { ReactComponent as UserIcon } from '../../assets/usericon.svg';
+import CTABlock from '../../components/CTAFooter/CTAFooter.js';
 
-const getInfoFromText = text => {
+export const getInfoFromText = text => {
   const dateRegex = /\*(\d{2}\/\d{2}\/\d{2})\*/;
+  const tagRegex = /--([^-]+)--/;
+  const authorRegex = /---([^-]+)---/;
+
   const dateMatch = text.match(dateRegex);
   let date = dateMatch ? dateMatch[1] : '';
 
@@ -27,13 +32,24 @@ const getInfoFromText = text => {
     date = `${dayOfMonth} ${monthName}, ${fullYear}`;
   }
 
-  const description = text.replace(dateRegex, '').replace(/######/g, '').trim();
+  const tagMatch = text.match(tagRegex);
+  const tag = tagMatch ? tagMatch[1] : '';
 
-  return { date, description };
+  const authorMatch = text.match(authorRegex);
+  const author = authorMatch ? authorMatch[1] : '';
+
+  const description = text
+    .replace(dateRegex, '')
+    .replace(tagRegex, '')
+    .replace(authorRegex, '')
+    .replace(/######/g, '')
+    .trim();
+
+  return { date, description, tag, author };
 };
 
-const BlogCard = ({ block }) => {
-  const { date, description } = getInfoFromText(block.text?.content || '');
+export const BlogCard = ({ block }) => {
+  const { date, description, tag, author } = getInfoFromText(block.text?.content || '');
   const image = block.media?.image;
   
   const imageVariants = image ? ['landscape400', 'landscape800'] : [];
@@ -50,15 +66,19 @@ const BlogCard = ({ block }) => {
           variants={imageVariants}
           sizes={sizes}
           className={css.cardImage}
+          sizes={"600px"}
         />
       )}
       <div className={css.cardContent}>
         <div className={css.topMeta}>
+          {tag && <div className={css.category}>{tag}</div>}
           <div className={css.meta}>
-            <div className={css.author}>
-              <UserIcon />
-              <span>Wesley Silalahi</span>
-            </div>
+            {author && (
+              <div className={css.author}>
+                <UserIcon />
+                <span>{author}</span>
+              </div>
+            )}
             <div className={css.date}>
               <IconDate />
               <span>{date}</span>
@@ -73,21 +93,16 @@ const BlogCard = ({ block }) => {
 };
 
 const BlogListPage = props => {
-  const dispatch = useDispatch();
   const params = useParams();
   const pageId = params.pageId || 'blog';
+  const config = useConfiguration();
 
   const { pageAssetsData, inProgress, error } = useSelector(
     state => state.hostedAssets || {},
     shallowEqual
   );
 
-  useEffect(() => {
-    if (inProgress || pageAssetsData?.[pageId]) {
-      return;
-    }
-    dispatch(loadData(params));
-  }, [dispatch, params, pageId, inProgress, pageAssetsData]);
+  const [activeTag, setActiveTag] = useState('All');
 
   if (inProgress) {
     return <div className={css.root} />;
@@ -100,22 +115,44 @@ const BlogListPage = props => {
   const pageData = pageAssetsData?.[pageId]?.data;
   const blocks = pageData?.sections?.[0]?.blocks || [];
 
+  const allTags = ['All', ...new Set(blocks.map(block => getInfoFromText(block.text?.content || '').tag).filter(Boolean))];
+
+  const filteredBlocks = activeTag === 'All' ? blocks : blocks.filter(block => getInfoFromText(block.text?.content || '').tag === activeTag);
+
+  // Extract meta information using the helper function
+  const { title, description, schema, socialSharing } = extractPageMetadata(pageData, 'WebPage');
+
   return (
-    <div className={css.root}>
-      <TopbarContainer />
-      <div className={css.hero}>
-        <Spiral className={css.spiral} />
-        <h1 className={css.heroTitle}>Blog</h1>
-      </div>
-      <div className={css.content}>
-        <div className={css.grid}>
-          {blocks.map((block, i) => (
-            <BlogCard key={i} block={block} />
-          ))}
+    <Page {...{ title, description, schema, socialSharing }} config={config} className={css.root}>
+      <LayoutSingleColumn
+        topbar={<TopbarContainer />}
+        footer={<FooterContainer />}
+      >
+        <div className={css.hero}>
+          <Spiral className={css.spiral} />
+          <h1 className={css.heroTitle}>Blog</h1>
         </div>
-      </div>
-      <FooterContainer />
-    </div>
+        <div className={css.content}>
+          <div className={css.tabs}>
+            {allTags.map(tag => (
+              <button
+                key={tag}
+                className={activeTag === tag ? css.activeTab : css.tab}
+                onClick={() => setActiveTag(tag)}
+              >
+                {tag}
+              </button>
+            ))}
+          </div>
+          <div className={css.grid}>
+            {filteredBlocks.map((block, i) => (
+              <BlogCard key={i} block={block} />
+            ))}
+          </div>
+        </div>
+        <CTABlock />
+      </LayoutSingleColumn>
+    </Page>
   );
 };
 

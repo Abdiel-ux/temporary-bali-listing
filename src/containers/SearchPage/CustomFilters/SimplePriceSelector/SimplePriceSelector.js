@@ -2,9 +2,26 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RangeSlider } from '../../../../components';
 import css from './SimplePriceSelector.module.css';
 import { FormattedMessage } from 'react-intl';
+import { useSelector } from 'react-redux';
 
-const formatPrice = (price, isSize = false) => {
-  return isSize ? `${price}` : `${price / 1000000}M`;
+const toDisplayValue = (value, currency, conversionRate, isSize) => {
+  if (isSize) {
+    return value;
+  }
+  if (currency === 'IDR') {
+    return value / 1000000;
+  }
+  return Math.round(value * conversionRate);
+};
+
+const fromDisplayValue = (value, currency, conversionRate, isSize) => {
+  if (isSize) {
+    return value;
+  }
+  if (currency === 'IDR') {
+    return value * 1000000;
+  }
+  return value / conversionRate;
 };
 
 function SimplePriceSelector({
@@ -18,14 +35,15 @@ function SimplePriceSelector({
   step = 1000000,
   isSize,
 }) {
-  // Set default formatValue based on isSize prop
-  const defaultFormatValue = formatValue || (price => formatPrice(price, isSize));
+  const USDConversionRate = useSelector(state => state.currency.conversionRate?.USD);
+  const currency = useSelector(state => state.currency.selectedCurrency);
+
   const [range, setRange] = useState(priceRange || [min, Math.min(500000000000, max)]);
   const debounceRef = useRef(null);
 
   // Add separate state for input values to allow intermediate editing
   const [minInputValue, setMinInputValue] = useState(
-    isSize ? priceRange?.[0] || min : (priceRange?.[0] || min) / 1000000
+    toDisplayValue(priceRange?.[0] || min, currency, USDConversionRate, isSize)
   );
   const [maxInputValue, setMaxInputValue] = useState(
     isSize
@@ -40,7 +58,8 @@ function SimplePriceSelector({
       clearTimeout(debounceRef.current);
     }
     debounceRef.current = setTimeout(() => {
-      onPriceRangeChange(newRange);
+      const finalRange = newRange.map(value => Math.floor(value / 100) * 100);
+      onPriceRangeChange(finalRange);
     }, 300); // 300ms debounce
   };
 
@@ -48,10 +67,10 @@ function SimplePriceSelector({
   // But don't interfere when range is changing programmatically
   useEffect(() => {
     if (!isRangeChanging) {
-      setMinInputValue(isSize ? range[0] : range[0] / 1000000);
-      setMaxInputValue(isSize ? range[1] : range[1] / 1000000);
+      setMinInputValue(toDisplayValue(range[0], currency, USDConversionRate, isSize));
+      setMaxInputValue(toDisplayValue(range[1], currency, USDConversionRate, isSize));
     }
-  }, [range, isRangeChanging, isSize]);
+  }, [range, isRangeChanging, isSize, currency, USDConversionRate]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -79,7 +98,7 @@ function SimplePriceSelector({
     // Prevent typing values beyond absolute max limit
     if (inputValue !== '' && !isNaN(inputValue)) {
       const numValue = parseFloat(inputValue);
-      const maxInputLimit = isSize ? max : max / 1000000;
+      const maxInputLimit = toDisplayValue(max, currency, USDConversionRate, isSize);
       if (numValue > maxInputLimit) {
         return; // Don't update input if beyond max limit
       }
@@ -90,7 +109,7 @@ function SimplePriceSelector({
     // Only update the range if we have a valid number and it's within absolute limits
     if (inputValue !== '' && !isNaN(inputValue)) {
       const numValue = parseFloat(inputValue);
-      const actualValue = isSize ? numValue : numValue * 1000000;
+      const actualValue = fromDisplayValue(numValue, currency, USDConversionRate, isSize);
 
       // Validate against absolute limits and current max
       if (actualValue >= min && actualValue <= max && actualValue <= range[1]) {
@@ -108,7 +127,7 @@ function SimplePriceSelector({
     // Prevent typing values beyond absolute max limit
     if (inputValue !== '' && !isNaN(inputValue)) {
       const numValue = parseFloat(inputValue);
-      const maxInputLimit = isSize ? max : max / 1000000;
+      const maxInputLimit = toDisplayValue(max, currency, USDConversionRate, isSize);
       if (numValue > maxInputLimit) {
         return; // Don't update input if beyond max limit
       }
@@ -119,7 +138,7 @@ function SimplePriceSelector({
     // Only update the range if we have a valid number and it's within absolute limits
     if (inputValue !== '' && !isNaN(inputValue)) {
       const numValue = parseFloat(inputValue);
-      const actualValue = isSize ? numValue : numValue * 1000000;
+      const actualValue = fromDisplayValue(numValue, currency, USDConversionRate, isSize);
 
       // Validate against absolute limits and current min
       if (actualValue <= max && actualValue >= min && actualValue >= range[0]) {
@@ -136,19 +155,19 @@ function SimplePriceSelector({
     const inputValue = e.target.value;
     if (inputValue !== '' && !isNaN(inputValue)) {
       const numValue = parseFloat(inputValue);
-      const actualValue = isSize ? numValue : numValue * 1000000;
+      const actualValue = fromDisplayValue(numValue, currency, USDConversionRate, isSize);
       const clampedValue = Math.max(min, Math.min(actualValue, range[1]));
 
       if (clampedValue !== actualValue) {
         // Update input display to show clamped value
-        setMinInputValue(isSize ? clampedValue : clampedValue / 1000000);
+        setMinInputValue(toDisplayValue(clampedValue, currency, USDConversionRate, isSize));
         const newRange = [clampedValue, range[1]];
         setRange(newRange);
         debouncedPriceRangeChange(newRange);
       }
     } else if (inputValue === '') {
       // If empty on blur, reset to current range value
-      setMinInputValue(isSize ? range[0] : range[0] / 1000000);
+      setMinInputValue(toDisplayValue(range[0], currency, USDConversionRate, isSize));
     }
   };
 
@@ -156,20 +175,26 @@ function SimplePriceSelector({
     const inputValue = e.target.value;
     if (inputValue !== '' && !isNaN(inputValue)) {
       const numValue = parseFloat(inputValue);
-      const actualValue = isSize ? numValue : numValue * 1000000;
+      const actualValue = fromDisplayValue(numValue, currency, USDConversionRate, isSize);
       const clampedValue = Math.min(max, Math.max(actualValue, range[0]));
 
       if (clampedValue !== actualValue) {
         // Update input display to show clamped value
-        setMaxInputValue(isSize ? clampedValue : clampedValue / 1000000);
+        setMaxInputValue(toDisplayValue(clampedValue, currency, USDConversionRate, isSize));
         const newRange = [range[0], clampedValue];
         setRange(newRange);
         debouncedPriceRangeChange(newRange);
       }
     } else if (inputValue === '') {
       // If empty on blur, reset to current range value
-      setMaxInputValue(isSize ? range[1] : range[1] / 1000000);
+      setMaxInputValue(toDisplayValue(range[1], currency, USDConversionRate, isSize));
     }
+  };
+
+  const displayConfig = {
+    min: toDisplayValue(min, currency, USDConversionRate, isSize),
+    max: toDisplayValue(max, currency, USDConversionRate, isSize),
+    step: isSize ? step : currency === 'IDR' ? step / 1000000 : 100,
   };
 
   return (
@@ -183,6 +208,12 @@ function SimplePriceSelector({
       {description && (
         <div className={css.description}>
           <FormattedMessage id={description} />
+          {description === 'PriceFilter.simplePriceDescription' && (
+            <>
+              {currency === 'IDR' && <FormattedMessage id={'PriceFilter.inMillions'} />}
+              {currency}{')'}
+            </>
+          )}
         </div>
       )}
 
@@ -210,9 +241,9 @@ function SimplePriceSelector({
               value={minInputValue}
               onChange={handleMinInputChange}
               onBlur={handleMinInputBlur}
-              min={isSize ? min : min / 1000000}
-              max={isSize ? max : max / 1000000}
-              step={isSize ? step : step / 1000000}
+              min={displayConfig.min}
+              max={displayConfig.max}
+              step={displayConfig.step}
             />
           </div>
           <div className={css.priceValue}>
@@ -225,9 +256,9 @@ function SimplePriceSelector({
               value={maxInputValue}
               onChange={handleMaxInputChange}
               onBlur={handleMaxInputBlur}
-              min={isSize ? min : min / 1000000}
-              max={isSize ? max : max / 1000000}
-              step={isSize ? step : step / 1000000}
+              min={displayConfig.min}
+              max={displayConfig.max}
+              step={displayConfig.step}
             />
           </div>
         </div>

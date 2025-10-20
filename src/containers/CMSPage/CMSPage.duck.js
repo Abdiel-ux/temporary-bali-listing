@@ -1,14 +1,13 @@
 import { fetchPageAssets } from '../../ducks/hostedAssets.duck';
 import { constructLocalizedPageAssets } from '../../util/localeAssetUtils';
 
-export const loadData = (params, search, config, match) => dispatch => {
+export const ASSET_NAME = 'cms';
+
+export const loadData = (params, search, config, match, currentLocale) => dispatch => {
   const pageId = params.pageId;
-  const assetMap = {
-    [pageId]: pageId,
-  };
+  const assetMap = { [pageId]: pageId };
 
-  const pageAsset = constructLocalizedPageAssets(assetMap, match);
+  const pageAsset = constructLocalizedPageAssets(assetMap, match, currentLocale);
 
-  const hasFallbackContent = false;
-  return dispatch(fetchPageAssets(pageAsset, hasFallbackContent));
+  return dispatch(fetchPageAssets(pageAsset, true));
 };

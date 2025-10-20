@@ -14,3 +14,8 @@ build
 .env
 npm-debug.log
 yarn-error.log
+
+# Data directory and database files
+/data
+*.db
+*.db-journal

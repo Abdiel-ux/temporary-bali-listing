@@ -4,14 +4,16 @@ import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
+import { useLocale } from '../../context/localeContext';
 import { useConfiguration } from '../../context/configurationContext';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 import { getCustomCSSPropertiesFromConfig } from '../../util/style';
 import { useIntl, intlShape } from '../../util/reactIntl';
-import { metaTagProps } from '../../util/seo';
+import { metaTagProps, generateHreflangs } from '../../util/seo';
 import { canonicalRoutePath } from '../../util/routes';
 import { propTypes } from '../../util/types';
 import { apiBaseUrl } from '../../util/api';
+import { getSupportedLocales } from '../../util/translation';
 
 import css from './Page.module.css';
 
@@ -116,6 +118,7 @@ class PageComponent extends Component {
       updated,
       config,
       routeConfiguration,
+      hreflangLinks = [],
     } = this.props;
 
     const classes = classNames(rootClassName || css.root, className, {
@@ -276,6 +279,9 @@ class PageComponent extends Component {
           {metaToHead.map((metaProps, i) => (
             <meta key={i} {...metaProps} />
           ))}
+          {hreflangLinks.map((link, i) => (
+            <link key={`hreflang-${i}`} rel={link.rel} hrefLang={link.hrefLang} href={link.href} />
+          ))}
           <script id="page-schema" type="application/ld+json">
             {schemaArrayJSONString.replace(/</g, '\\u003c')}
           </script>
@@ -335,6 +341,26 @@ const Page = props => {
   const routeConfiguration = useRouteConfiguration();
   const location = useLocation();
   const intl = useIntl();
+  const { locale } = useLocale();
+  const supportedLocales = getSupportedLocales();
+
+  // Extract the path without the locale prefix for hreflang generation
+  const pathname = location.pathname;
+  let pathWithoutLocale = pathname;
+  supportedLocales.forEach(loc => {
+    if (loc !== 'en' && pathname.startsWith(`/${loc}/`)) {
+      pathWithoutLocale = pathname.substring(loc.length + 1); // +1 for the leading slash
+    }
+  });
+
+  // If the path starts with a supported locale that isn't 'en', we remove it
+  // If the path is just a locale (like /fr), we set pathWithoutLocale to "/"
+  if (pathname === `/${locale}` && supportedLocales.includes(locale) && locale !== 'en') {
+    pathWithoutLocale = '/';
+  }
+
+  // Generate hreflang links
+  const hreflangLinks = generateHreflangs(pathWithoutLocale, locale, supportedLocales, config.marketplaceRootURL);
 
   return (
     <PageComponent
@@ -342,6 +368,7 @@ const Page = props => {
       routeConfiguration={routeConfiguration}
       location={location}
       intl={intl}
+      hreflangLinks={hreflangLinks}
       {...props}
     />
   );

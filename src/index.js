@@ -123,6 +123,8 @@ if (typeof window !== 'undefined') {
   // set up logger with Sentry DSN client key and environment
   // log.setup();
 
+  window.isInitialClientRender = true;
+
   const baseUrl = appSettings.sdk.baseUrl ? { baseUrl: appSettings.sdk.baseUrl } : {};
   const assetCdnBaseUrl = appSettings.sdk.assetCdnBaseUrl
     ? { assetCdnBaseUrl: appSettings.sdk.assetCdnBaseUrl }

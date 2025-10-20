@@ -11,10 +11,14 @@ import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 import ResponsiveImage from '../../components/ResponsiveImage/ResponsiveImage';
 import { loadData } from './AboutUsPage.duck';
+import { Page, LayoutSingleColumn } from '../../components/index.js';
+import { useConfiguration } from '../../context/configurationContext';
+import { extractPageMetadata } from '../../util/seo';
 
 import css from './AboutUsPage.module.css';
 import { FormattedMessage } from 'react-intl';
 import { ReactComponent as Spiral } from '../../assets/about-us-spiral.svg';
+import CTABlock from '../../components/CTAFooter/CTAFooter.js';
 
 const renderAst = new rehypeReact({ createElement: React.createElement }).Compiler;
 
@@ -65,10 +69,11 @@ const AnimatedWrapper = ({ children, ...props }) => {
 const AboutUsPage = props => {
   const dispatch = useDispatch();
   const params = useParams();
+  const config = useConfiguration();
 
   // intentional to use new content page, to make it easier to switch between the old about page and the new one because of the content difference
   // TODO: move "about-new" content to "about", and then change the page id here to "about". Right now it's retrieving content from both "about" and "about-new"
-  const pageId = 'about-new'; 
+  const pageId = 'about-new';
 
   const { pageAssetsData, inProgress, error } = useSelector(
     state => state.hostedAssets || {},
@@ -91,6 +96,9 @@ const AboutUsPage = props => {
   }
 
   const pageData = pageAssetsData?.[pageId]?.data;
+
+  // Extract meta information using the helper function
+  const { title, description, schema, socialSharing } = extractPageMetadata(pageData, 'WebPage');
 
   const toReact = markdown => {
     if (!markdown) return null;
@@ -137,7 +145,7 @@ const AboutUsPage = props => {
                 image={image}
                 variants={imageVariants}
                 className={css.missionImage}
-                sizes="(max-width: 768px) 100vw, 60vw"
+                sizes="(max-width: 768px) 100vw, 800px"
               />
             ) : null}
             <div className={css.missionContent}>
@@ -187,7 +195,7 @@ const AboutUsPage = props => {
                 image={image}
                 variants={imageVariants}
                 className={css.missionImage}
-                sizes="(max-width: 768px) 100vw, 60vw"
+                sizes="(max-width: 768px) 100vw, 800px"
               />
             ) : null}
           </div>
@@ -212,7 +220,7 @@ const AboutUsPage = props => {
                 image={image}
                 variants={imageVariants}
                 className={css.missionImage}
-                sizes="(max-width: 768px) 100vw, 60vw"
+                sizes="(max-width: 768px) 100vw, 800px"
               />
             ) : null}
             <div className={css.missionContent}>
@@ -270,31 +278,35 @@ const AboutUsPage = props => {
   };
 
   return (
-    <div className={css.root}>
-      <TopbarContainer />
-      <div className={css.hero}>
-        <Spiral className={css.spiral} />
-        <h1 className={css.heroTitle}>
-          <FormattedMessage id="TranslatedLink.aboutUs" />
-        </h1>
-      </div>
-      <div className={css.content}>
-        {blocks.map((block, i) => {
-          if (i > 2 && i <= 5) {
-            return null;
-          }
-          if (i === 2) {
-            return (
-              <AnimatedWrapper key="group-2-5" className={css.featureGroup}>
-                {blocks.slice(2, 6).map((b, j) => renderBlock(b, j + 2))}
-              </AnimatedWrapper>
-            );
-          }
-          return renderBlock(block, i);
-        })}
-      </div>
-      <FooterContainer />
-    </div>
+    <Page {...{ title, description, schema, socialSharing }} config={config} className={css.root}>
+      <LayoutSingleColumn
+        topbar={<TopbarContainer />}
+        footer={<FooterContainer />}
+      >
+        <div className={css.hero}>
+          <Spiral className={css.spiral} />
+          <h1 className={css.heroTitle}>
+            <FormattedMessage id="TranslatedLink.aboutUs" />
+          </h1>
+        </div>
+        <div className={css.content}>
+          {blocks.map((block, i) => {
+            if (i > 2 && i <= 5) {
+              return null;
+            }
+            if (i === 2) {
+              return (
+                <AnimatedWrapper key="group-2-5" className={css.featureGroup}>
+                  {blocks.slice(2, 6).map((b, j) => renderBlock(b, j + 2))}
+                </AnimatedWrapper>
+              );
+            }
+            return renderBlock(block, i);
+          })}
+        </div>
+        <CTABlock />
+      </LayoutSingleColumn>
+    </Page>
   );
 };
 

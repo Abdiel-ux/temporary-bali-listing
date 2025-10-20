@@ -16,14 +16,10 @@ p {
   flex-direction: column;
   flex-grow: 1;
   padding: 0 24px;
-  max-width: 1440px;
+  max-width: 1284px;
   margin: 0 auto;
   color: #231f20;
   width: 100%;
-
-  @media (--viewportMedium) {
-    padding: 0 112px;
-  }
 }
 
 .hero {
@@ -62,7 +58,7 @@ p {
 
 .tabs {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 30px;
   margin-bottom: 50px;
 }

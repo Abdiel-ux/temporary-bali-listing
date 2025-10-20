@@ -363,8 +363,8 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
     : {};
 
   const {
-    aspectWidth = 1,
-    aspectHeight = 1,
+    aspectWidth = 388,
+    aspectHeight = 282,
     variantPrefix = 'listing-card',
   } = config.layout.listingImage;
   const aspectRatio = aspectHeight / aspectWidth;
@@ -383,11 +383,11 @@ export const loadData = (params, search, config) => (dispatch, getState, sdk) =>
         'variants.scaled-small',
         'variants.scaled-medium',
         `variants.${variantPrefix}`,
-        `variants.${variantPrefix}-2x`,
+        // `variants.${variantPrefix}-2x`,
         'variants.landscape-crop2x',
       ],
-      ...createImageVariantConfig(`${variantPrefix}`, 400, aspectRatio),
-      ...createImageVariantConfig(`${variantPrefix}-2x`, 800, aspectRatio),
+      ...createImageVariantConfig(`${variantPrefix}`, 640, aspectRatio),
+      // ...createImageVariantConfig(`${variantPrefix}-2x`, 800, aspectRatio),
       // 'limit.images': 1,
     },
     config

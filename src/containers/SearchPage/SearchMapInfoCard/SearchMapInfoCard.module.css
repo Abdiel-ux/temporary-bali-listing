@@ -650,80 +650,9 @@ margin-right: 10px;
 }
 
 .slider {
-  /* height: 240px;
-  max-height: 240px; */
   @media (max-width: 767px) {
     max-width: calc(100vw - 40px);
     margin: 0 auto;
-  }
-  & :global(.slick-track) {
-    display: flex !important;
-  }
-
-  & :global(.slick-arrow) {
-    border: 0;
-    position: absolute;
-    z-index: 2;
-    top: 44%;
-    cursor: pointer;
-    @media (min-width: 768px) {
-      display: none !important;
-     }
-    & svg {
-      width: 24px;
-      height: 24px;
-      @media (max-width: 767px) {
-        width: 23px;
-        height: 23px;
-      }
-    }
-  }
-
-  & :global(.slick-prev) {
-    left: 0;
-    /* @media (max-width: 767px) {
-      display: none !important;
-    } */
-  }
-
-  & :global(.slick-next) {
-    right: 0;
-    /* @media (max-width: 767px) {
-      display: none !important;
-    } */
-  }
-
-  & :global(.slick-dots) {
-    position: absolute;
-    z-index: 2;
-    bottom: 0px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 2px;
-    @media (max-width: 767px) {
-      gap: 2px;
-      bottom: 6px;
-    }
-    & li {
-      list-style: none;
-      @media (max-width: 767px) {
-        line-height: 12px;
-      }
-      &:marker {
-        display: none;
-      }
-    }
-  }
-  
-  & :global(.slick-dots) button {
-    display: none;
-  }
-  & :global(.slick-active) {
-    & .dot {
-      background: #f74df4;
-      border: 1px solid #ffffff;
-    }
   }
 }
 
