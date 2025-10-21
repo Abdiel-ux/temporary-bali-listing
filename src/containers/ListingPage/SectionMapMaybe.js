@@ -3,7 +3,8 @@ import { FormattedMessage } from '../../util/reactIntl';
 import classNames from 'classnames';
 import { propTypes } from '../../util/types';
 import { obfuscatedCoordinates } from '../../util/maps';
-import { Heading, Map } from '../../components';
+import { Heading } from '../../components';
+import Map from '../../components/Map/Map';
 
 import css from './ListingPage.module.css';
 

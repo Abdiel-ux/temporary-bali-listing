@@ -1,3 +1,7 @@
+// TODO: remove this file
+// This barrel file adds to the bundle size and makes it harder to tree-shake unused components
+// If barrel file is needed, split the barrel file into smaller groups/individual
+
 /**
  * Independent components
  * These components do not include any other components
@@ -61,7 +65,6 @@ export { default as ResponsiveBackgroundImageContainer } from './ResponsiveBackg
 export { default as TimeRange } from './TimeRange/TimeRange';
 export { default as UserDisplayName } from './UserDisplayName/UserDisplayName';
 export { default as ValidationError } from './ValidationError/ValidationError';
-export {default as ImageUploader} from '../components/ImageUploader/ImageUploader';
 
 /**
  * Composite components
@@ -103,7 +106,6 @@ export { default as FieldTextInput } from './FieldTextInput/FieldTextInput';
 export { default as FieldBoolean } from './FieldBoolean/FieldBoolean';
 export { default as FieldCheckboxGroup } from './FieldCheckboxGroup/FieldCheckboxGroup';
 export { default as FieldPhoneNumberInput } from './FieldPhoneNumberInput/FieldPhoneNumberInput';
-export { default as LocationAutocompleteInput, FieldLocationAutocompleteInput } from './LocationAutocompleteInput/LocationAutocompleteInput';
 
 // NOTE: these are code-splitted since these components are heavy and needed only on couple of pages
 export const FieldDateRangePicker = loadable(() => import(/* webpackChunkName: "FieldDateRangePicker" */ './DatePicker/FieldDateRangePicker/FieldDateRangePicker'));
@@ -121,28 +123,6 @@ export { default as UserNav } from './UserNav/UserNav';
 ///////////////////////////////////////////////
 
 export { default as Avatar, AvatarSmall, AvatarMedium, AvatarLarge } from './Avatar/Avatar';
-export { default as CustomExtendedDataField } from './CustomExtendedDataField/CustomExtendedDataField';
-export { default as OrderBreakdown } from './OrderBreakdown/OrderBreakdown';
-export { default as OrderPanel } from './OrderPanel/OrderPanel';
-export { default as ListingCard } from './ListingCard/ListingCard';
-export { default as Map } from './Map/Map';
+
 export { default as Page } from './Page/Page';
 export { default as Reviews } from './Reviews/Reviews';
-export { default as SavedCardDetails } from './SavedCardDetails/SavedCardDetails';
-export { default as StripeConnectAccountStatusBox } from './StripeConnectAccountStatusBox/StripeConnectAccountStatusBox';
-export { default as StripePaymentAddress } from './StripePaymentAddress/StripePaymentAddress';
-
-// Forms
-export { default as StripeConnectAccountForm } from './StripeConnectAccountForm/StripeConnectAccountForm';
-
-//////////////////////////////////////////////
-// Page sections and modal content wrappers //
-//////////////////////////////////////////////
-
-export { default as LayoutComposer, LayoutSingleColumn, LayoutSideNavigation } from './LayoutComposer';
-export { default as MaintenanceMode } from './MaintenanceMode/MaintenanceMode';
-export { default as ModalMissingInformation } from './ModalMissingInformation/ModalMissingInformation';
-export { default as CookieConsent } from './CookieConsent';
-
-export { default as IconCollection } from './IconCollection/IconCollection';
-export { default as TestmonialSlider } from './TestmonialSlider/TestmonialSlider';

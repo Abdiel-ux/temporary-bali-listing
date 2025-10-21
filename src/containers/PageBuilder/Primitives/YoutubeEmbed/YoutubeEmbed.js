@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { lazyLoadWithDimensions } from '../../../../util/uiHelpers.js';
 
-import { AspectRatioWrapper } from '../../../../components/index.js';
+import AspectRatioWrapper from '../../../../components/AspectRatioWrapper/AspectRatioWrapper';
 
 import css from './YoutubeEmbed.module.css';
 

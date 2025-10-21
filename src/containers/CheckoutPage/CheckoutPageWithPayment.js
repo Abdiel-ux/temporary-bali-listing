@@ -11,7 +11,8 @@ import { isTransactionInitiateListingNotFoundError } from '../../util/errors';
 import { getProcess, isBookingProcessAlias } from '../../transactions/transaction';
 
 // Import shared components
-import { H3, H4, NamedLink, OrderBreakdown, Page } from '../../components';
+import { H3, H4, NamedLink, Page } from '../../components';
+import OrderBreakdown from '../../components/OrderBreakdown/OrderBreakdown';
 
 import {
   bookingDatesMaybe,

@@ -11,7 +11,8 @@ import TopbarContainer from '../TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 import ResponsiveImage from '../../components/ResponsiveImage/ResponsiveImage.js';
 import IconDate from '../../components/IconDate/IconDate.js';
-import { Page, LayoutSingleColumn } from '../../components/index.js';
+import { Page } from '../../components/index.js';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 import { useConfiguration } from '../../context/configurationContext';
 import { extractPageMetadata } from '../../util/seo';
 

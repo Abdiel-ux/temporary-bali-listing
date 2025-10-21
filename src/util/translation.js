@@ -14,6 +14,18 @@ const getSupportedLocales = () => {
   return [defaultLocale];
 };
 
+// Helper function to get the locale from a path
+const getLocaleFromPath = (pathname, SUPPORTED_LOCALES) => {
+  const pathParts = pathname.split('/').filter(part => part !== '');
+
+  if (pathParts.length > 0 && SUPPORTED_LOCALES.includes(pathParts[0])) {
+    return pathParts[0];
+  }
+
+  return null;
+};
+
 module.exports = {
   getSupportedLocales,
+  getLocaleFromPath,
 };

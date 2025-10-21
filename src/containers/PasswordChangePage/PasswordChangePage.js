@@ -8,7 +8,8 @@ import { propTypes } from '../../util/types';
 import { isScrollingDisabled } from '../../ducks/ui.duck';
 import { showCreateListingLinkForUser, showPaymentDetailsForUser } from '../../util/userHelpers';
 
-import { Page, UserNav, H3, LayoutSideNavigation } from '../../components';
+import { Page, UserNav, H3 } from '../../components';
+import LayoutSideNavigation from '../../components/LayoutComposer/LayoutSideNavigation/LayoutSideNavigation';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';

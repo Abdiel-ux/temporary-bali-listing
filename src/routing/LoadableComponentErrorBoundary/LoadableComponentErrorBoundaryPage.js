@@ -3,7 +3,8 @@ import { FormattedMessage } from '../../util/reactIntl';
 import { pathByRouteName } from '../../util/routes';
 import { useRouteConfiguration } from '../../context/routeConfigurationContext';
 
-import { InlineTextButton, Logo, Heading, LayoutSingleColumn } from '../../components';
+import { InlineTextButton, Logo, Heading } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 import css from './LoadableComponentErrorBoundary.module.css';
 

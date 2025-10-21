@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import ShareModal from '../../components/ShareModal/ShareModal';
 import IconShare from '../../components/IconShare/IconShare';
+import { checkIsProvider } from '../../util/userHelpers';
 
 const SectionGallery = props => {
   const { listing, variantPrefix, onToggleFavorites, currentUser } = props;
@@ -31,12 +32,14 @@ const SectionGallery = props => {
           <button className={css.shareButton} onClick={() => setShareModalOpen(true)}>
             <IconShare />
           </button>
-          <button
-            className={classNames(css.wishlistButton, isFavorite ? css.active : '')}
-            onClick={toggleFavorites}
-          >
-            <IconCollection name="icon-waislist" />
-          </button>
+          {!checkIsProvider(currentUser) && (
+            <button
+              className={classNames(css.wishlistButton, isFavorite ? css.active : '')}
+              onClick={toggleFavorites}
+            >
+              <IconCollection name="icon-waislist" />
+            </button>
+          )}
         </div>
       </div>
       <ListingImageGallery

@@ -1,6 +1,6 @@
 import React from 'react';
 import css from './AmenitiesSelector.module.css';
-import { IconCollection } from '../../../../components';
+import IconCollection from '../../../../components/IconCollection/IconCollection';
 import { FormattedMessage } from 'react-intl';
 
 const rentalAmenities = [

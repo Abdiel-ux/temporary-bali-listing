@@ -191,6 +191,8 @@ app.get('/sitemap-:resource', sitemapResourceRoute);
 // The corresponding <link> element is set in src/components/Page/Page.js
 app.get('/site.webmanifest', webmanifestResourceRoute);
 
+const localeMiddleware = require('./localeMiddleware');
+
 // These .well-known/* endpoints will be enabled if you are using this template as OIDC proxy
 // https://www.sharetribe.com/docs/cookbook-social-logins-and-sso/setup-open-id-connect-proxy/
 // We need to handle these endpoints separately so that they are accessible by Sharetribe backend
@@ -223,6 +225,9 @@ app.use('/api', apiRouter);
 
 // URL Shortener redirect route
 app.use('/sh', shortUrlRouter);
+
+// Middleware for locale detection
+app.use(localeMiddleware);
 
 const noCacheHeaders = {
   'Cache-control': 'no-cache, no-store, must-revalidate',
@@ -273,18 +278,7 @@ app.get('*', async (req, res) => {
     .loadData(req.url, sdk, appInfo)
     .then(data => {
       const { preloadedState, hostedConfig } = data;
-      const { getSupportedLocales } = require('../src/util/translation');
-      const SUPPORTED_LOCALES = getSupportedLocales();
-
-      const getLocaleFromPath = (pathname, supportedLocales) => {
-        const pathParts = pathname.split('/').filter(part => part !== '');
-        if (pathParts.length > 0 && supportedLocales.includes(pathParts[0])) {
-          return pathParts[0];
-        }
-        return null;
-      };
-
-      const locale = getLocaleFromPath(req.url, SUPPORTED_LOCALES) || 'en';
+      const locale = req.locale;
       let translations;
       try {
         translations = require(`../src/translations/${locale}.json`);

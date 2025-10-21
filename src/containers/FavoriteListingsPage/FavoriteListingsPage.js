@@ -14,10 +14,11 @@ import {
   Page,
   PaginationLinks,
   UserNav,
-  LayoutSingleColumn,
-  ListingCard,
+  // LayoutSingleColumn,
 } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
+import ListingCard from '../../components/ListingCard/ListingCard';
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';

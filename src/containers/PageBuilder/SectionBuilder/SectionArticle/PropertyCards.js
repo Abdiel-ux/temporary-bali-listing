@@ -5,12 +5,16 @@ import useDisableBodyScrollOnSwipe from '../../../../util/useDisableBodyScrollOn
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { types as sdkTypes } from '../../../../util/sdkLoader';
 import { getListingsById } from '../../../../ducks/marketplaceData.duck';
+import { checkIsProvider } from '../../../../util/userHelpers';
 import { fetchFeaturedListings } from '../../../LandingPage/LandingPage.duck';
 import { NamedLink } from '../../../../components/NamedLink/NamedLink';
 import { sortTags, capitaliseFirstLetter } from '../../../../util/helper';
 import { createSlug } from '../../../../util/urlHelpers';
 import { useHistory, useLocation } from 'react-router-dom';
-import { handleToggleFavorites, isFavorite as isFavoriteUtil } from '../../../../util/userFavorites';
+import {
+  handleToggleFavorites,
+  isFavorite as isFavoriteUtil,
+} from '../../../../util/userFavorites';
 import { updateProfile } from '../../../ProfileSettingsPage/ProfileSettingsPage.duck';
 import { useRouteConfiguration } from '../../../../context/routeConfigurationContext';
 import classNames from 'classnames';
@@ -298,7 +302,10 @@ export const customLocationBounds = [
 ];
 
 const PropertyCards = () => {
-  const { featuredListingIds, featuredListingsInProgress } = useSelector(state => state.LandingPage, shallowEqual);
+  const { featuredListingIds, featuredListingsInProgress } = useSelector(
+    state => state.LandingPage,
+    shallowEqual
+  );
   const currentUser = useSelector(state => state.user.currentUser, shallowEqual);
   const entities = useSelector(state => state.marketplaceData.entities, shallowEqual);
   const listings = getListingsById(entities, featuredListingIds);
@@ -444,12 +451,23 @@ const PropertyCards = () => {
                   key={card.id.uuid}
                 >
                   <div className={styles.imageWrapper}>
-                    <ImageSlider loop={images.length > 1} images={imagesUrls} title={title} buttonSize='large'/>
-                    <button 
-                      className={classNames(styles.wishlistButton, isFavorite ? styles.active : '')} 
-                      onClick={onToggleFavorites}>
-                      <IconCollection name="icon-waislist" />
-                    </button>
+                    <ImageSlider
+                      loop={images.length > 1}
+                      images={imagesUrls}
+                      title={title}
+                      buttonSize="large"
+                    />
+                    {!checkIsProvider(currentUser) && (
+                      <button
+                        className={classNames(
+                          styles.wishlistButton,
+                          isFavorite ? styles.active : ''
+                        )}
+                        onClick={onToggleFavorites}
+                      >
+                        <IconCollection name="icon-waislist" />
+                      </button>
+                    )}
                   </div>
                   <div className={styles.cardDetails}>
                     <div className={styles.cardDetailsTop}>
@@ -468,7 +486,7 @@ const PropertyCards = () => {
                           params={{ id: author.id.uuid }}
                         >
                           <span className={styles.listedBy}>
-                            {intl.formatMessage({ id: 'ListingPage.aboutProviderTitle'})}:{' '}
+                            {intl.formatMessage({ id: 'ListingPage.aboutProviderTitle' })}:{' '}
                             <span className={styles.listedByName}>
                               {author.attributes.profile.displayName}
                             </span>
@@ -484,7 +502,9 @@ const PropertyCards = () => {
                             <span className={styles.typeIcon}>
                               <IconCollection name="typeIcon" />
                             </span>
-                            <span className={styles.type}>{capitaliseFirstLetter(propertytype)}</span>
+                            <span className={styles.type}>
+                              {capitaliseFirstLetter(propertytype)}
+                            </span>
                           </>
                         )}
                         <span className={styles.locationWrapper}>
@@ -498,12 +518,20 @@ const PropertyCards = () => {
                         <div className={styles.icons}>
                           {!!bedrooms && (
                             <span className={styles.iconItem}>
-                              <Icon type="bed" /> {bedrooms} {intl.formatMessage({ id: 'ListingCard.bedroom' }, { count: bedrooms })}
+                              <Icon type="bed" /> {bedrooms}{' '}
+                              {intl.formatMessage(
+                                { id: 'ListingCard.bedroom' },
+                                { count: bedrooms }
+                              )}
                             </span>
                           )}
                           {!!bathrooms && (
                             <span className={styles.iconItem}>
-                              <Icon type="bath" /> {bathrooms} {intl.formatMessage({ id: 'ListingCard.bathroom' }, { count: bathrooms })}
+                              <Icon type="bath" /> {bathrooms}{' '}
+                              {intl.formatMessage(
+                                { id: 'ListingCard.bathroom' },
+                                { count: bathrooms }
+                              )}
                             </span>
                           )}
                           {!!landsize && isLand && (
@@ -519,14 +547,14 @@ const PropertyCards = () => {
                         </div>
                         <div className={styles.price}>
                           <span className={styles.priceValue}>
-                            {formatPriceInMillions(price)} {needPriceConversion ? "USD" : "IDR"}
+                            {formatPriceInMillions(price)} {needPriceConversion ? 'USD' : 'IDR'}
                           </span>
                           {isRentals && (
                             <span className={styles.priceUnit}>
-                              {monthprice 
-                                ? '/ ' + intl.formatMessage({ id: 'ListingCard.monthly' }) 
-                                : weekprice 
-                                ? '/ ' + intl.formatMessage({ id: 'ListingCard.weekly' }) 
+                              {monthprice
+                                ? '/ ' + intl.formatMessage({ id: 'ListingCard.monthly' })
+                                : weekprice
+                                ? '/ ' + intl.formatMessage({ id: 'ListingCard.weekly' })
                                 : '/ ' + intl.formatMessage({ id: 'ListingCard.yearly' })}
                             </span>
                           )}

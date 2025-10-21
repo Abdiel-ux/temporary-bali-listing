@@ -39,8 +39,9 @@ import {
   IconSpinner,
   TimeRange,
   UserDisplayName,
-  LayoutSideNavigation,
+  // LayoutSideNavigation,
 } from '../../components';
+import LayoutSideNavigation from '../../components/LayoutComposer/LayoutSideNavigation/LayoutSideNavigation';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';

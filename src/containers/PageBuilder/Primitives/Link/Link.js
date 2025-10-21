@@ -5,7 +5,8 @@ import { useLocation } from 'react-router-dom';
 import { useRouteConfiguration } from '../../../../context/routeConfigurationContext.js';
 import { matchPathname } from '../../../../util/routes.js';
 
-import { NamedLink, ExternalLink } from '../../../../components/index.js';
+import NamedLink from '../../../../components/NamedLink/NamedLink';
+import ExternalLink from '../../../../components/ExternalLink/ExternalLink';
 import css from './Link.module.css';
 
 /**

@@ -10,7 +10,8 @@ import { createResourceLocatorString } from '../../util/routes';
 import { isMainSearchTypeKeywords } from '../../util/search';
 import { isScrollingDisabled } from '../../ducks/ui.duck';
 
-import { Heading, Page, LayoutSingleColumn } from '../../components';
+import { Heading, Page } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';

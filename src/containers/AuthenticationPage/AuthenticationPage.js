@@ -31,14 +31,12 @@ import {
   Heading,
   IconSpinner,
   NamedRedirect,
-  LinkTabNavHorizontal,
   SocialLoginButton,
-  ResponsiveBackgroundImageContainer,
   Modal,
-  LayoutSingleColumn,
+  // LayoutSingleColumn,
   NamedLink,
 } from '../../components';
-
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 

@@ -49,9 +49,9 @@ import {
   Page,
   NamedLink,
   NamedRedirect,
-  OrderPanel,
-  LayoutSingleColumn,
+  // LayoutSingleColumn,
 } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 // Related components and modules
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
@@ -83,6 +83,7 @@ import SectionMapMaybe from './SectionMapMaybe';
 import CustomListingFields from './CustomListingFields';
 
 import css from './ListingPage.module.css';
+import OrderPanel from '../../components/OrderPanel/OrderPanel.js';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 

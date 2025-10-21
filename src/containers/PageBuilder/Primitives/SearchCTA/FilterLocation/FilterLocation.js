@@ -3,7 +3,8 @@ import { Field } from 'react-final-form';
 import { useIntl } from '../../../../../util/reactIntl';
 import classNames from 'classnames';
 
-import { LocationAutocompleteInput, IconLocation } from '../../../../../components';
+import { IconLocation } from '../../../../../components';
+import LocationAutocompleteInput from '../../../../../components/LocationAutocompleteInput/LocationAutocompleteInput';
 import css from './FilterLocation.module.css';
 
 const identity = v => v;

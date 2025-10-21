@@ -16,7 +16,7 @@ import TenureSelector from './TenureSelector/TenureSelector';
 import LandTitleSelector from './LandTitleSelector/LandTitleSelector';
 import LandZoneSelector from './LandZoneSelector/LandZoneSelector';
 import { useHistory } from 'react-router-dom';
-import { IconCollection } from '../../../components';
+import IconCollection from '../../../components/IconCollection/IconCollection';
 import { FormattedMessage } from 'react-intl';
 
 // Configuration for which filters each category needs

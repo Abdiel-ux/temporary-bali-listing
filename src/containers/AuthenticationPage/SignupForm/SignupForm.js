@@ -8,12 +8,13 @@ import { propTypes } from '../../../util/types';
 import * as validators from '../../../util/validators';
 import { getPropsForCustomUserFieldInputs } from '../../../util/userHelpers';
 
-import { Form, PrimaryButton, FieldTextInput, CustomExtendedDataField } from '../../../components';
+import { Form, PrimaryButton, FieldTextInput } from '../../../components';
+import CustomExtendedDataField from '../../../components/CustomExtendedDataField/CustomExtendedDataField';
 
 import FieldSelectUserType from '../FieldSelectUserType';
 import UserFieldDisplayName from '../UserFieldDisplayName';
 import UserFieldPhoneNumber from '../UserFieldPhoneNumber';
-import { ImageUploader } from '../../../components';
+import ImageUploader from '../../../components/ImageUploader/ImageUploader';
 
 import css from './SignupForm.module.css';
 

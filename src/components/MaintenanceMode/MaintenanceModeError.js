@@ -3,7 +3,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import mapValues from 'lodash/mapValues';
 
 import { IntlProvider } from '../../util/reactIntl';
-import { MaintenanceMode } from '../../components';
+import MaintenanceMode from '../../components/MaintenanceMode/MaintenanceMode';
 import defaultMessages from '../../translations/en.json';
 import { addMissingTranslations } from '../../util/configHelpers';
 

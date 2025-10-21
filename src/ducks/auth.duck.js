@@ -2,6 +2,7 @@ import * as log from '../util/log';
 import { storableError } from '../util/errors';
 import { clearCurrentUser, fetchCurrentUser } from './user.duck';
 import { createUserWithIdp } from '../util/api';
+import { clearUserLocaleCookie } from '../util/cookies';
 
 const authenticated = authInfo => authInfo?.isAnonymous === false;
 const loggedInAs = authInfo => authInfo?.isLoggedInAs === true;
@@ -199,6 +200,7 @@ export const logout = () => (dispatch, getState, sdk) => {
       dispatch(logoutSuccess());
       dispatch(clearCurrentUser());
       log.clearUserId();
+      clearUserLocaleCookie(); // Clear the userLocale cookie
       dispatch(userLogout());
     })
     .catch(e => dispatch(logoutError(storableError(e))));

@@ -21,15 +21,13 @@ import {
   FieldSelect,
   FieldTextInput,
   Heading,
-  CustomExtendedDataField,
 } from '../../../../components';
-
-// Import IconCollection
-import { IconCollection } from '../../../../components';
+import CustomExtendedDataField from '../../../../components/CustomExtendedDataField/CustomExtendedDataField';
 
 // Import modules from this directory
 import css from './EditListingDetailsForm.module.css';
 import LabelWithTooltip from '../../../../components/LabelWithTooltip/LabelWithTooltip';
+import IconCollection from '../../../../components/IconCollection/IconCollection';
 
 const TITLE_MAX_LENGTH = 60;
 

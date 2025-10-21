@@ -3,7 +3,8 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import classNames from 'classnames';
 
 import { useIntl } from '../../../util/reactIntl';
-import { Form, LocationAutocompleteInput } from '../../../components';
+import { Form } from '../../../components';
+import LocationAutocompleteInput from '../../../components/LocationAutocompleteInput/LocationAutocompleteInput';
 
 import IconSearchDesktop from './IconSearchDesktop';
 

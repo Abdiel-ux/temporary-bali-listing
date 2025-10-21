@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { FormattedMessage } from '../../../../../util/reactIntl';
 
-import { OutsideClickHandler, IconCollection, RangeSlider } from '../../../../../components';
+import { OutsideClickHandler, RangeSlider } from '../../../../../components';
+import IconCollection from '../../../../../components/IconCollection/IconCollection';
 
 import css from './FilterPrice.module.css';
 

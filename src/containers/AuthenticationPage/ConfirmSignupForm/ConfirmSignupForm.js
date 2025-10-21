@@ -12,9 +12,12 @@ import {
   Form,
   PrimaryButton,
   FieldTextInput,
-  CustomExtendedDataField,
-  ImageUploader,
+  // ImageUploader,
 } from '../../../components';
+
+import ImageUploader from '../../../components/ImageUploader/ImageUploader';
+
+import CustomExtendedDataField from '../../../components/CustomExtendedDataField/CustomExtendedDataField';
 
 import FieldSelectUserType from '../FieldSelectUserType';
 import UserFieldDisplayName from '../UserFieldDisplayName';

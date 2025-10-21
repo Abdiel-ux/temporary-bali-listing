@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { isScrollingDisabled } from '../../ducks/ui.duck.js';
-import { Page } from '../../components/index.js';
+import Page from '../../components/Page/Page';
 
 /**
  * This component returns a Page component which is connected to Redux store.

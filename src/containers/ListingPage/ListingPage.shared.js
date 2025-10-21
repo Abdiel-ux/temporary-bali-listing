@@ -11,7 +11,8 @@ import {
   createSlug,
 } from '../../util/urlHelpers';
 
-import { Page, LayoutSingleColumn } from '../../components';
+import { Page } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 
 import css from './ListingPage.module.css';

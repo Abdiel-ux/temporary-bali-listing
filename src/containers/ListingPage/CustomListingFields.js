@@ -1,6 +1,6 @@
 import React from 'react';
 import css from './ListingPage.module.css';
-import { IconCollection } from '../../components/index.js';
+import IconCollection from '../../components/IconCollection/IconCollection.js';
 import { FormattedDate, FormattedMessage } from 'react-intl';
 
 // Static array of amenities to display

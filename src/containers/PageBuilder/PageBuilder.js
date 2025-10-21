@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { IconSpinner, LayoutComposer } from '../../components/index.js';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer.js';
 import FooterContainer from '../FooterContainer/FooterContainer.js';
 
@@ -11,6 +10,8 @@ import StaticPage from './StaticPage.js';
 
 import css from './PageBuilder.module.css';
 import './LandingPage.module.css';
+import IconSpinner from '../../components/IconSpinner/IconSpinner.js';
+import LayoutComposer from '../../components/LayoutComposer/LayoutComposer.js';
 
 const getMetadata = (meta, schemaType, fieldOptions) => {
   const { pageTitle, pageDescription, socialSharing } = meta;

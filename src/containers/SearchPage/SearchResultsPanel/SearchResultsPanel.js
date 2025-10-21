@@ -2,7 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { propTypes } from '../../../util/types';
-import { ListingCard, PaginationLinks } from '../../../components';
+import PaginationLinks from '../../../components/PaginationLinks/PaginationLinks';
+import ListingCard from '../../../components/ListingCard/ListingCard';
 import LazyRender from '../../../components/LazyRender/LazyRender';
 
 import css from './SearchResultsPanel.module.css';

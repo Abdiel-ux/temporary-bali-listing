@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { IconArrowHead } from '../../../components';
-
+import IconArrowHead from '../../IconArrowHead/IconArrowHead';
 import { getMonths } from './DatePicker.helpers';
 
 import css from './DatePicker.module.css';

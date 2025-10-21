@@ -15,8 +15,9 @@ import {
   InlineTextButton,
   IconKeys,
   ResponsiveBackgroundImageContainer,
-  LayoutSingleColumn,
+  // LayoutSingleColumn,
 } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';

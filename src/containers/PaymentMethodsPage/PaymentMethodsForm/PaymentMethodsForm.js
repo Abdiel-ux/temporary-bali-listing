@@ -10,7 +10,8 @@ import classNames from 'classnames';
 import { useConfiguration } from '../../../context/configurationContext';
 import { FormattedMessage, useIntl } from '../../../util/reactIntl';
 
-import { Form, PrimaryButton, FieldTextInput, StripePaymentAddress, H4 } from '../../../components';
+import { Form, PrimaryButton, FieldTextInput, H4 } from '../../../components';
+import StripePaymentAddress from '../../../components/StripePaymentAddress/StripePaymentAddress';
 
 import css from './PaymentMethodsForm.module.css';
 

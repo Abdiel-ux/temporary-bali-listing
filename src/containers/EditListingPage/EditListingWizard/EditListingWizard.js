@@ -44,9 +44,11 @@ import {
   Modal,
   NamedRedirect,
   Tabs,
-  StripeConnectAccountStatusBox,
-  StripeConnectAccountForm,
+  // StripeConnectAccountStatusBox,
+  // StripeConnectAccountForm,
 } from '../../../components';
+import StripeConnectAccountForm from '../../../components/StripeConnectAccountForm/StripeConnectAccountForm';
+import StripeConnectAccountStatusBox from '../../../components/StripeConnectAccountStatusBox/StripeConnectAccountStatusBox';
 
 // Import modules from this directory
 import EditListingWizardTab, {

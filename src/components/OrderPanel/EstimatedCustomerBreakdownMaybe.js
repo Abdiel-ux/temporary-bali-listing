@@ -34,7 +34,7 @@ import { LINE_ITEM_DAY, LINE_ITEM_NIGHT, LISTING_UNIT_TYPES } from '../../util/t
 import { unitDivisor, convertMoneyToNumber, convertUnitToSubUnit } from '../../util/currency';
 import { getProcess, TX_TRANSITION_ACTOR_CUSTOMER } from '../../transactions/transaction';
 
-import { OrderBreakdown } from '../../components';
+import OrderBreakdown from '../../components/OrderBreakdown/OrderBreakdown';
 
 import css from './OrderPanel.module.css';
 

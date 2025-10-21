@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import { useIntl } from '../../../../util/reactIntl';
 import { isMainSearchTypeKeywords } from '../../../../util/search';
 
-import { Form, LocationAutocompleteInput } from '../../../../components';
+import { Form } from '../../../../components';
+import LocationAutocompleteInput from '../../../../components/LocationAutocompleteInput/LocationAutocompleteInput';
 
 import IconSearchDesktop from './IconSearchDesktop';
 import css from './TopbarSearchForm.module.css';

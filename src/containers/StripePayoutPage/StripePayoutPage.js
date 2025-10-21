@@ -19,12 +19,15 @@ import {
   H3,
   NamedRedirect,
   Page,
-  StripeConnectAccountStatusBox,
-  StripeConnectAccountForm,
+  // StripeConnectAccountStatusBox,
+  // StripeConnectAccountForm,
   UserNav,
-  LayoutSideNavigation,
+  // LayoutSideNavigation,
 } from '../../components';
+import LayoutSideNavigation from '../../components/LayoutComposer/LayoutSideNavigation/LayoutSideNavigation';
 
+import StripeConnectAccountForm from '../../components/StripeConnectAccountForm/StripeConnectAccountForm';
+import StripeConnectAccountStatusBox from '../../components/StripeConnectAccountStatusBox/StripeConnectAccountStatusBox';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
 

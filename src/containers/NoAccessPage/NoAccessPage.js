@@ -19,10 +19,11 @@ import {
   Heading,
   Page,
   ResponsiveBackgroundImageContainer,
-  LayoutSingleColumn,
+  // LayoutSingleColumn,
   NamedLink,
   ExternalLink,
 } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import TopbarContainer from '../TopbarContainer/TopbarContainer';

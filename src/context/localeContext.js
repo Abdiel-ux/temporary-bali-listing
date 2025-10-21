@@ -50,6 +50,13 @@ export const useUpdateLocale = () => {
 
   return newLocale => {
     if (SUPPORTED_LOCALES.includes(newLocale)) {
+      // Always set the cookie, as it's used for server-side redirects
+      // and provides an immediate hint to the server.
+      const d = new Date();
+      d.setTime(d.getTime() + 365 * 24 * 60 * 60 * 1000);
+      const expires = `expires=${d.toUTCString()}`;
+      document.cookie = `userLocale=${newLocale};${expires};path=/`;
+
       if (currentUser) {
         dispatch(saveLocale(newLocale));
       } else {

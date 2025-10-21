@@ -31,10 +31,9 @@ import {
   NamedRedirect,
   Page,
   UserDisplayName,
-  OrderBreakdown,
-  OrderPanel,
-  LayoutSingleColumn,
 } from '../../components';
+import OrderBreakdown from '../../components/OrderBreakdown/OrderBreakdown';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
@@ -55,6 +54,7 @@ import {
 } from './TransactionPage.duck';
 import css from './TransactionPage.module.css';
 import { getCurrentUserTypeRoles, hasPermissionToViewData } from '../../util/userHelpers.js';
+import OrderPanel from '../../components/OrderPanel/OrderPanel.js';
 
 // Submit dispute and close the review modal
 const onDisputeOrder = (

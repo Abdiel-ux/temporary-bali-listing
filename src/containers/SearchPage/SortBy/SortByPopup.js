@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { IconCollection, Menu, MenuContent, MenuItem, MenuLabel } from '../../../components';
+import IconCollection from '../../../components/IconCollection/IconCollection';
+import Menu from '../../../components/Menu/Menu';
+import MenuContent from '../../../components/MenuContent/MenuContent';
+import MenuItem from '../../../components/MenuItem/MenuItem';
+import MenuLabel from '../../../components/MenuLabel/MenuLabel';
 import css from './SortByPopup.module.css';
 
 const optionLabel = (options, key) => {

@@ -3,9 +3,10 @@ import { Field } from 'react-final-form';
 import classNames from 'classnames';
 import { FormattedMessage } from '../../../../../util/reactIntl';
 
-import { OutsideClickHandler, IconCollection, RangeSlider } from '../../../../../components';
+import { OutsideClickHandler, RangeSlider } from '../../../../../components';
 
 import css from './FilterLandSize.module.css';
+import IconCollection from '../../../../../components/IconCollection/IconCollection';
 
 const formatLandSize = size => {
   return `${size} m2`;

@@ -52,10 +52,10 @@ import {
   Page,
   NamedLink,
   NamedRedirect,
-  OrderPanel,
-  LayoutSingleColumn,
+  // LayoutSingleColumn,
 } from '../../components';
 import SectionHeading from './SectionHeading';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 
 // Related components and modules
 import TopbarContainer from '../TopbarContainer/TopbarContainer';
@@ -90,6 +90,7 @@ import SectionTerms from './SectionTerms';
 
 import css from './ListingPage.module.css';
 import { handleToggleFavorites } from '../../util/userFavorites.js';
+import OrderPanel from '../../components/OrderPanel/OrderPanel.js';
 
 const { Money } = sdkTypes;
 

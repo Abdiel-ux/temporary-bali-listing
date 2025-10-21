@@ -15,9 +15,10 @@ import {
   MenuContent,
   MenuItem,
   NamedLink,
-  IconCollection,
   Button,
 } from '../../../../components';
+
+import IconCollection from '../../../../components/IconCollection/IconCollection';
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
 import CustomLinksMenu from './CustomLinksMenu/CustomLinksMenu';

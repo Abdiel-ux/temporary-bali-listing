@@ -7,7 +7,7 @@ import BlockBuilder from '../../BlockBuilder';
 import SectionContainer from '../SectionContainer';
 import css from './SectionArticle.module.css';
 import PropertyCards from './PropertyCards';
-import { Button, IconCollection, TestmonialSlider } from '../../../../components';
+import TestmonialSlider from '../../../../components/TestmonialSlider/TestmonialSlider';
 
 /**
  * @typedef {Object} BlockConfig

@@ -11,7 +11,8 @@ import { savePaymentMethod, deletePaymentMethod } from '../../ducks/paymentMetho
 import { handleCardSetup } from '../../ducks/stripe.duck';
 import { manageDisableScrolling, isScrollingDisabled } from '../../ducks/ui.duck';
 
-import { H3, SavedCardDetails, Page, UserNav, LayoutSideNavigation } from '../../components';
+import { H3, Page, UserNav } from '../../components';
+import LayoutSideNavigation from '../../components/LayoutComposer/LayoutSideNavigation/LayoutSideNavigation';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
@@ -21,6 +22,7 @@ import PaymentMethodsForm from './PaymentMethodsForm/PaymentMethodsForm';
 import { createStripeSetupIntent, stripeCustomer } from './PaymentMethodsPage.duck.js';
 
 import css from './PaymentMethodsPage.module.css';
+import SavedCardDetails from '../../components/SavedCardDetails/SavedCardDetails.js';
 
 /**
  * The payment methods page.

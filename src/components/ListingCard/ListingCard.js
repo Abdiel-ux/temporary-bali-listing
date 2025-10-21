@@ -3,12 +3,14 @@ import React from 'react';
 
 import { useConfiguration } from '../../context/configurationContext';
 
-import { IconCollection, NamedLink } from '../../components';
+import NamedLink from '../../components/NamedLink/NamedLink';
+import IconCollection from '../../components/IconCollection/IconCollection';
 import { displayPrice } from '../../util/configHelpers';
 import { ensureListing, ensureUser } from '../../util/data';
 import { useIntl } from '../../util/reactIntl';
 import { richText } from '../../util/richText';
 import { createSlug } from '../../util/urlHelpers';
+import { checkIsProvider } from '../../util/userHelpers';
 
 import { Icon } from '../../containers/PageBuilder/SectionBuilder/SectionArticle/PropertyCards';
 import { capitaliseFirstLetter, sortTags } from '../../util/helper';
@@ -22,24 +24,21 @@ import ImageSlider from '../ImageSlider/ImageSlider';
 const MIN_LENGTH_FOR_LONG_WORDS = 10;
 
 // Helper function to get best available image variant
-const getBestImageUrl = (img) => {
+const getBestImageUrl = img => {
   if (!img || !img.attributes) return null;
-  
+
   const variants = img.attributes.variants || {};
-  
+
   // Priority order for variants
-  const variantPriority = [
-    'listing-card',
-    'scaled-small',
-  ];
-  
+  const variantPriority = ['listing-card', 'scaled-small'];
+
   // Try each variant in order
   for (const variantName of variantPriority) {
     if (variants[variantName]?.url) {
       return variants[variantName].url;
     }
   }
-  
+
   // Fallback to direct URL
   return img.attributes.url || null;
 };
@@ -134,7 +133,9 @@ const PriceMaybe = props => {
 
     if (activePeriodKey) {
       priceToDisplay = publicData[activePeriodKey];
-      suffix = `/ ${intl.formatMessage({ id: 'ListingCard.' + activePeriodKey.replace('price', 'ly') })}`;
+      suffix = `/ ${intl.formatMessage({
+        id: 'ListingCard.' + activePeriodKey.replace('price', 'ly'),
+      })}`;
     }
   }
 
@@ -245,9 +246,9 @@ export const ListingCard = props => {
 
   return (
     <NamedLink name="ListingPage" params={{ id, slug }} className={classes}>
-      {showWishlistButton && (
-        <button 
-          className={classNames(css.wishlistButton, isFavorite ? css.active : '')} 
+      {showWishlistButton && !checkIsProvider(currentUser) && (
+        <button
+          className={classNames(css.wishlistButton, isFavorite ? css.active : '')}
           onClick={onToggleFavorites}
         >
           <IconCollection name="icon-waislist" />
@@ -268,7 +269,7 @@ export const ListingCard = props => {
           {author?.id?.uuid && (
             <NamedLink className={css.listedBy} name="ProfilePage" params={{ id: author.id.uuid }}>
               <span className={css.listedBy}>
-                {intl.formatMessage({ id: 'ListingPage.aboutProviderTitle'})}:{' '}
+                {intl.formatMessage({ id: 'ListingPage.aboutProviderTitle' })}:{' '}
                 <span className={css.listedByName}>{author.attributes.profile.displayName}</span>
               </span>
             </NamedLink>

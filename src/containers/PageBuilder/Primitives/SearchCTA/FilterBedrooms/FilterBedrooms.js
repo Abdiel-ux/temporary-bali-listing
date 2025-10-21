@@ -3,7 +3,8 @@ import { Field } from 'react-final-form';
 import classNames from 'classnames';
 import { FormattedMessage } from '../../../../../util/reactIntl';
 
-import { OutsideClickHandler, IconCollection } from '../../../../../components';
+import OutsideClickHandler from '../../../../../components/OutsideClickHandler/OutsideClickHandler';
+import IconCollection from '../../../../../components/IconCollection/IconCollection';
 
 import css from './FilterBedrooms.module.css';
 

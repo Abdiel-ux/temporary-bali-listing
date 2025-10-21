@@ -17,12 +17,13 @@ import {
 // Import shared components
 import {
   Form,
-  FieldLocationAutocompleteInput,
+  // FieldLocationAutocompleteInput,
   Button,
   FieldCurrencyInput,
   FieldTextInput,
   FieldCheckbox,
 } from '../../../../components';
+import FieldLocationAutocompleteInput from '../../../../components/LocationAutocompleteInput/LocationAutocompleteInput';
 
 // Import modules from this directory
 import css from './EditListingDeliveryForm.module.css';

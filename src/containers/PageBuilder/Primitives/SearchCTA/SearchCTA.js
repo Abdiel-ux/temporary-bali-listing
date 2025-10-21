@@ -14,7 +14,7 @@ import { isOriginInUse } from '../../../../util/search';
 import { stringifyDateToISO8601 } from '../../../../util/dates';
 
 // Shared components
-import { Form, IconCollection } from '../../../../components';
+import { Form } from '../../../../components';
 
 import FilterCategories from './FilterCategories/FilterCategories';
 import FilterDateRange from './FilterDateRange/FilterDateRange';
@@ -25,6 +25,7 @@ import css from './SearchCTA.module.css';
 import FilterBedrooms from './FilterBedrooms';
 import FilterPrice from './FilterPrice';
 import FilterLandSize from './FilterLandSize';
+import IconCollection from '../../../../components/IconCollection/IconCollection';
 
 const GRID_CONFIG = [
   { gridCss: css.gridCol1 },

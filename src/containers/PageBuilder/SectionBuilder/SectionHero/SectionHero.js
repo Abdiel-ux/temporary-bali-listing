@@ -1,16 +1,7 @@
 import classNames from 'classnames';
-import React, { useState } from 'react';
-import { Form as FinalForm, Field as FinalFormField } from 'react-final-form';
-import { useHistory, useLocation } from 'react-router-dom';
-import Form from '../../../../components/Form/Form';
-import LocationAutocompleteInput from '../../../../components/LocationAutocompleteInput/LocationAutocompleteInput';
-import { getSearchPageResourceLocatorStringParams } from '../../../../containers/SearchPage/SearchPage.shared';
-import { useConfiguration } from '../../../../context/configurationContext';
-import { useRouteConfiguration } from '../../../../context/routeConfigurationContext';
-import { createResourceLocatorString } from '../../../../util/routes';
+import React from 'react';
 import Field, { hasDataInFields } from '../../Field';
 
-import { IconCollection } from '../../../../components';
 import SectionContainer from '../SectionContainer';
 import css from './SectionHero.module.css';
 import { SearchCTA } from '../../Primitives/SearchCTA/SearchCTA';

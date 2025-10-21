@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { ExternalLink } from '../../../../components/index.js';
+import ExternalLink from '../../../../components/ExternalLink/ExternalLink';
 import {
   facebookIcon,
   instagramIcon,

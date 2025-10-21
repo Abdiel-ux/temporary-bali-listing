@@ -3,7 +3,7 @@ import React from 'react';
 import appSettings from '../../config/settings';
 import { FormattedMessage } from '../../util/reactIntl';
 
-import { LayoutSingleColumn } from '../../components';
+import LayoutSingleColumn from '../../components/LayoutComposer/LayoutSingleColumn/LayoutSingleColumn';
 import css from './MaintenanceMode.module.css';
 
 // MaintenanceMode component is shown when mandatory app-wide configurations are not found from assets.

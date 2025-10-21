@@ -78,17 +78,6 @@ export const LocaleStaticRouter = ({ location, context, children, ...rest }) => 
   );
 };
 
-// Helper function to get the locale from a path
-export const getLocaleFromPath = (pathname, SUPPORTED_LOCALES) => {
-  const pathParts = pathname.split('/').filter(part => part !== '');
-
-  if (pathParts.length > 0 && SUPPORTED_LOCALES.includes(pathParts[0])) {
-    return pathParts[0];
-  }
-
-  return null;
-};
-
 // Helper function to add locale prefix to a path
 export const addLocaleToPath = (pathname, locale, SUPPORTED_LOCALES, DEFAULT_LOCALE) => {
   // If locale is not supported or is the default, don't add prefix

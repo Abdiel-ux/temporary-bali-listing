@@ -41,12 +41,12 @@ import {
   Page,
   AvatarLarge,
   NamedLink,
-  ListingCard,
   Reviews,
   ButtonTabNavHorizontal,
-  LayoutSideNavigation,
+  // LayoutSideNavigation,
   NamedRedirect,
 } from '../../components';
+import LayoutSideNavigation from '../../components/LayoutComposer/LayoutSideNavigation/LayoutSideNavigation';
 
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import FooterContainer from '../../containers/FooterContainer/FooterContainer';
@@ -57,6 +57,7 @@ import SectionDetailsMaybe from './SectionDetailsMaybe';
 import SectionTextMaybe from './SectionTextMaybe';
 import SectionMultiEnumMaybe from './SectionMultiEnumMaybe';
 import SectionYoutubeVideoMaybe from './SectionYoutubeVideoMaybe';
+import ListingCard from '../../components/ListingCard/ListingCard';
 
 const MAX_MOBILE_SCREEN_WIDTH = 768;
 const MIN_LENGTH_FOR_LONG_WORDS = 20;

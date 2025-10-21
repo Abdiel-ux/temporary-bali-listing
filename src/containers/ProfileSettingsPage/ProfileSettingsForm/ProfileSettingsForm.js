@@ -20,8 +20,8 @@ import {
   IconSpinner,
   FieldTextInput,
   H4,
-  CustomExtendedDataField,
 } from '../../../components';
+import CustomExtendedDataField from '../../../components/CustomExtendedDataField/CustomExtendedDataField';
 
 import css from './ProfileSettingsForm.module.css';
 

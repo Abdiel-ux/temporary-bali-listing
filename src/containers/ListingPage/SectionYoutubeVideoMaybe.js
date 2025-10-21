@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { lazyLoadWithDimensions } from '../../util/uiHelpers.js';
 import { extractYouTubeID } from '../../util/string.js';
 
-import { AspectRatioWrapper } from '../../components/index.js';
+import AspectRatioWrapper from '../../components/AspectRatioWrapper/AspectRatioWrapper.js';
 import { Heading } from '../../components';
 
 const RADIX = 10;

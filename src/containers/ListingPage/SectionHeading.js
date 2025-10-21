@@ -8,9 +8,8 @@ import {
   pickCategoryFields,
 } from '../../util/fieldHelpers';
 
-import { Heading, IconCollection } from '../../components';
-
 import css from './ListingPage.module.css';
+import IconCollection from '../../components/IconCollection/IconCollection';
 
 const SectionHeading = props => {
   const {
