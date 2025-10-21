@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
 import ReactImageGallery from 'react-image-gallery';
 
@@ -65,18 +65,19 @@ const ListingImageGallery = props => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const galleryRef = useRef(null);
   const intl = useIntl();
   const { rootClassName, className, images, imageVariants, thumbnailVariants } = props;
   const thumbVariants = thumbnailVariants || imageVariants;
   // imageVariants are scaled variants.
   const { aspectWidth, aspectHeight } = getFirstImageAspectRatio(images?.[0], imageVariants[0]);
-  
+
   // Check if mobile on mount and resize
   React.useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -106,11 +107,11 @@ const ListingImageGallery = props => {
     const timeoutId = setTimeout(() => {
       if (isMobile && !isFullscreen && items.length > 3) {
         const thumbnails = document.querySelectorAll('.image-gallery-thumbnail');
-        
+
         if (thumbnails.length > 0) {
           thumbnails.forEach((thumb, index) => {
             let shouldShow = false;
-            
+
             // For first slide, show first, second, third
             if (currentIndex === 0) {
               shouldShow = index <= 2;
@@ -121,12 +122,12 @@ const ListingImageGallery = props => {
             }
             // For middle slides, show previous, current, next
             else {
-              shouldShow = 
+              shouldShow =
                 index === currentIndex - 1 || // previous
                 index === currentIndex ||     // current
                 index === currentIndex + 1;   // next
             }
-            
+
             if (shouldShow) {
               thumb.style.display = 'inline-block';
             } else {
@@ -155,15 +156,27 @@ const ListingImageGallery = props => {
 
     return () => clearTimeout(timeoutId);
   }, [currentIndex, isMobile, isFullscreen, items.length]);
+
+  // Handler untuk klik gambar di mobile
+  const handleImageClick = () => {
+    // Hanya aktifkan fullscreen saat klik di mobile dan belum fullscreen
+    if (isMobile && !isFullscreen && galleryRef.current) {
+      galleryRef.current.fullScreen();
+    }
+  };
+
   const imageSizesMaybe = isFullscreen
     ? {}
     : { sizes: `(max-width: 1024px) 100vw, (max-width: 1200px) calc(100vw - 192px), 708px` };
+
   const renderItem = item => {
     return (
       <AspectRatioWrapper
         width={aspectWidth || 1}
         height={aspectHeight || 1}
         className={isFullscreen ? css.itemWrapperFullscreen : css.itemWrapper}
+        onClick={handleImageClick}
+        style={isMobile && !isFullscreen ? { cursor: 'pointer' } : {}}
       >
         <div className={css.itemCentering}>
           <ResponsiveImage
@@ -177,7 +190,7 @@ const ListingImageGallery = props => {
       </AspectRatioWrapper>
     );
   };
-  
+
   const renderThumbInner = item => {
     return (
       <div>
@@ -209,6 +222,7 @@ const ListingImageGallery = props => {
       </button>
     );
   };
+
   const renderRightNav = (onClick, disabled) => {
     return (
       <button className={css.navRight} disabled={disabled} onClick={onClick}>
@@ -218,6 +232,7 @@ const ListingImageGallery = props => {
       </button>
     );
   };
+
   const renderFullscreenButton = (onClick, isFullscreen) => {
     return isFullscreen ? (
       <Button
@@ -258,6 +273,7 @@ const ListingImageGallery = props => {
 
   return (
     <ReactImageGallery
+      ref={galleryRef}
       additionalClass={classes}
       items={items}
       renderItem={renderItem}
