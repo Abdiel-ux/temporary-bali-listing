@@ -70,6 +70,7 @@
   margin-right: 20px;
   cursor: pointer;
   background-color: white;
+  font-family: Mulish, sans-serif;
 }
 
 .activeTab {
@@ -82,4 +83,111 @@
   cursor: pointer;
   background-color: white;
   font-family: Mulish, sans-serif;
+}
+
+/* TABLET - Breakpoint 1024px */
+@media (max-width: 1024px) {
+  .content {
+    padding: 0 40px;
+    gap: 50px;
+  }
+
+  .leftColumn {
+    width: 380px;
+  }
+
+  .rightColumn {
+    width: 480px;
+  }
+
+  .title {
+    font-size: 42px;
+  }
+}
+
+/* MOBILE - Breakpoint 768px */
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 32px;
+  }
+
+  .leftColumn {
+    width: 100%;
+    padding-top: 40px;
+    position: relative;
+    top: auto;
+    text-align: center;
+  }
+
+  .rightColumn {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 40px;
+  }
+
+  .tag {
+    font-size: 12px;
+    padding: 8px 16px;
+    margin-bottom: 16px;
+
+  }
+
+  .title {
+    font-size: 32px;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .description {
+    font-size: 14px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+    justify-content:center;
+  }
+
+  .tab {
+    font-size: 13px;
+    padding: 10px 18px;
+    margin-right: 0;
+  }
+
+  .activeTab {
+    font-size: 13px;
+    padding: 10px 18px;
+    margin-right: 0;
+  }
+}
+
+/* SMALL MOBILE - Breakpoint 480px */
+@media (max-width: 480px) {
+  .content {
+    padding: 0 16px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .tabs {
+    gap: 29px;
+    justify-content: center;
+  }
+
+  .tab,
+  .activeTab {
+    font-size: 12px;
+    padding: 8px 14px;
+  }
 }
