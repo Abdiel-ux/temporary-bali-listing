@@ -6,43 +6,45 @@
 
 .content {
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  padding: 0 112px;
-  max-width: 1440px;
+  padding: 0 20px;
+  max-width: 100%;
   margin: 0 auto;
-  gap: 76px;
+  gap: 32px;
   color: #231F20;
 }
 
 .leftColumn {
-  width: 444px;
-  padding-top: 80px;
-  position: sticky;
-  top: 80px;
-  align-self: flex-start;
+  width: 100%;
+  padding-top: 40px;
+  position: relative;
+  text-align: center;
 }
 
 .rightColumn {
-  width: 548px;
-  padding-top: 80px;
+  width: 100%;
+  padding-top: 0;
+  padding-bottom: 40px;
 }
 
 .tag {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
-  padding: 10px 20px;
+  padding: 8px 16px;
   background-color: rgba(251, 166, 249, 0.2);
   color: var(--marketplaceColor);
   border-radius: 31px;
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .title {
-  font-size: 53px;
+  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   font-family: Istok Web;
+  line-height: 1.2;
 }
 
 .title span {
@@ -50,144 +52,133 @@
 }
 
 .description {
-  font-size: 16px;
+  font-size: 14px;
   font-family: Mulish, sans-serif;
   color: #8d8d8d;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
+  line-height: 1.6;
 }
 
 .tabs {
   display: flex;
-  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 32px;
+  justify-content: center;
 }
 
 .tab {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border: 1px solid #d3d3d3;
   border-radius: 10px;
-  margin-right: 20px;
   cursor: pointer;
   background-color: white;
   font-family: Mulish, sans-serif;
 }
 
 .activeTab {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  padding: 10px 20px;
+  padding: 10px 18px;
   border: 1px solid #f74df4;
   border-radius: 10px;
-  margin-right: 20px;
   cursor: pointer;
   background-color: white;
   font-family: Mulish, sans-serif;
 }
 
-/* TABLET - Breakpoint 1024px */
-@media (max-width: 1024px) {
+/* TABLET - 768px+ */
+@media (min-width: 768px) {
   .content {
     padding: 0 40px;
     gap: 50px;
   }
 
   .leftColumn {
-    width: 380px;
+    padding-top: 60px;
   }
 
-  .rightColumn {
-    width: 480px;
+  .tag {
+    font-size: 13px;
+    padding: 9px 18px;
+    margin-bottom: 18px;
   }
 
   .title {
     font-size: 42px;
-  }
-}
-
-/* MOBILE - Breakpoint 768px */
-@media (max-width: 768px) {
-  .content {
-    flex-direction: column;
-    padding: 0 20px;
-    gap: 32px;
-  }
-
-  .leftColumn {
-    width: 100%;
-    padding-top: 40px;
-    position: relative;
-    top: auto;
-    text-align: center;
-  }
-
-  .rightColumn {
-    width: 100%;
-    padding-top: 0;
-    padding-bottom: 40px;
-  }
-
-  .tag {
-    font-size: 12px;
-    padding: 8px 16px;
-    margin-bottom: 16px;
-
-  }
-
-  .title {
-    font-size: 32px;
-    margin-bottom: 16px;
-    line-height: 1.2;
+    margin-bottom: 18px;
   }
 
   .description {
-    font-size: 14px;
-    margin-bottom: 24px;
-    line-height: 1.6;
-  }
-
-  .tabs {
-    flex-wrap: wrap;
-    gap: 12px;
+    font-size: 15px;
     margin-bottom: 32px;
-    justify-content:center;
-  }
-
-  .tab {
-    font-size: 13px;
-    padding: 10px 18px;
-    margin-right: 0;
-  }
-
-  .activeTab {
-    font-size: 13px;
-    padding: 10px 18px;
-    margin-right: 0;
-  }
-}
-
-/* SMALL MOBILE - Breakpoint 480px */
-@media (max-width: 480px) {
-  .content {
-    padding: 0 16px;
-  }
-
-  .title {
-    font-size: 28px;
-  }
-
-  .description {
-    font-size: 13px;
   }
 
   .tabs {
-    gap: 29px;
-    justify-content: center;
+    gap: 16px;
+    margin-bottom: 36px;
   }
 
   .tab,
   .activeTab {
-    font-size: 12px;
-    padding: 8px 14px;
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}
+
+/* DESKTOP - 1024px+ */
+@media (min-width: 1024px) {
+  .content {
+    flex-direction: row; /* PENTING: Ubah jadi row untuk 2 kolom */
+    padding: 0 112px;
+    max-width: 1440px;
+    gap: 76px;
+  }
+
+  .leftColumn {
+    width: 444px;
+    padding-top: 80px;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+    text-align: left; /* Kembali ke left alignment */
+  }
+
+  .rightColumn {
+    width: 548px;
+    padding-top: 80px;
+    padding-bottom: 0;
+  }
+
+  .tag {
+    font-size: 14px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    font-size: 53px;
+    margin-bottom: 20px;
+  }
+
+  .description {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  .tabs {
+    gap: 0;
+    margin-bottom: 40px;
+    justify-content: flex-start; /* Align tabs ke kiri di desktop */
+  }
+
+  .tab {
+    margin-right: 20px;
+  }
+
+  .activeTab {
+    margin-right: 20px;
   }
 }
