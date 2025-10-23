@@ -1,3 +1,5 @@
+@import '../../styles/customMediaQueries.css';
+
 .root {
   display: flex;
   flex-direction: column;
@@ -13,6 +15,18 @@
   margin: 0 auto;
   gap: 32px;
   color: #231F20;
+
+  @media (--viewportMedium) {
+    padding: 0 40px;
+    gap: 50px;
+  }
+
+  @media (--viewportLarge) {
+    flex-direction: row;
+    padding: 0 112px;
+    max-width: 1440px;
+    gap: 76px;
+  }
 }
 
 .leftColumn {
@@ -20,12 +34,31 @@
   padding-top: 40px;
   position: relative;
   text-align: center;
+
+  @media (--viewportMedium) {
+    padding-top: 60px;
+  }
+
+  @media (--viewportLarge) {
+    width: 444px;
+    padding-top: 80px;
+    position: sticky;
+    top: 80px;
+    align-self: flex-start;
+    text-align: left;
+  }
 }
 
 .rightColumn {
   width: 100%;
   padding-top: 0;
   padding-bottom: 40px;
+
+  @media (--viewportLarge) {
+    width: 548px;
+    padding-top: 80px;
+    padding-bottom: 0;
+  }
 }
 
 .tag {
@@ -37,6 +70,18 @@
   border-radius: 31px;
   display: inline-block;
   margin-bottom: 16px;
+
+  @media (--viewportMedium) {
+    font-size: 13px;
+    padding: 9px 18px;
+    margin-bottom: 18px;
+  }
+
+  @media (--viewportLarge) {
+    font-size: 14px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+  }
 }
 
 .title {
@@ -45,6 +90,16 @@
   margin-bottom: 16px;
   font-family: Istok Web;
   line-height: 1.2;
+
+  @media (--viewportMedium) {
+    font-size: 42px;
+    margin-bottom: 18px;
+  }
+
+  @media (--viewportLarge) {
+    font-size: 53px;
+    margin-bottom: 20px;
+  }
 }
 
 .title span {
@@ -57,14 +112,35 @@
   color: #8d8d8d;
   margin-bottom: 24px;
   line-height: 1.6;
+
+  @media (--viewportMedium) {
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  @media (--viewportLarge) {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
 }
 
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 29px;
   margin-bottom: 32px;
   justify-content: center;
+
+  @media (--viewportMedium) {
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  @media (--viewportLarge) {
+    gap: 0;
+    margin-bottom: 40px;
+    justify-content: flex-start;
+  }
 }
 
 .tab {
@@ -76,6 +152,15 @@
   cursor: pointer;
   background-color: white;
   font-family: Mulish, sans-serif;
+
+  @media (--viewportMedium) {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+
+  @media (--viewportLarge) {
+    margin-right: 20px;
+  }
 }
 
 .activeTab {
@@ -87,98 +172,13 @@
   cursor: pointer;
   background-color: white;
   font-family: Mulish, sans-serif;
-}
 
-/* TABLET - 768px+ */
-@media (min-width: 768px) {
-  .content {
-    padding: 0 40px;
-    gap: 50px;
-  }
-
-  .leftColumn {
-    padding-top: 60px;
-  }
-
-  .tag {
-    font-size: 13px;
-    padding: 9px 18px;
-    margin-bottom: 18px;
-  }
-
-  .title {
-    font-size: 42px;
-    margin-bottom: 18px;
-  }
-
-  .description {
-    font-size: 15px;
-    margin-bottom: 32px;
-  }
-
-  .tabs {
-    gap: 16px;
-    margin-bottom: 36px;
-  }
-
-  .tab,
-  .activeTab {
+  @media (--viewportMedium) {
     font-size: 14px;
     padding: 10px 20px;
   }
-}
 
-/* DESKTOP - 1024px+ */
-@media (min-width: 1024px) {
-  .content {
-    flex-direction: row; /* PENTING: Ubah jadi row untuk 2 kolom */
-    padding: 0 112px;
-    max-width: 1440px;
-    gap: 76px;
-  }
-
-  .leftColumn {
-    width: 444px;
-    padding-top: 80px;
-    position: sticky;
-    top: 80px;
-    align-self: flex-start;
-    text-align: left; /* Kembali ke left alignment */
-  }
-
-  .rightColumn {
-    width: 548px;
-    padding-top: 80px;
-    padding-bottom: 0;
-  }
-
-  .tag {
-    font-size: 14px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-  }
-
-  .title {
-    font-size: 53px;
-    margin-bottom: 20px;
-  }
-
-  .description {
-    font-size: 16px;
-    margin-bottom: 40px;
-  }
-
-  .tabs {
-    gap: 0;
-    margin-bottom: 40px;
-    justify-content: flex-start; /* Align tabs ke kiri di desktop */
-  }
-
-  .tab {
-    margin-right: 20px;
-  }
-
-  .activeTab {
+  @media (--viewportLarge) {
     margin-right: 20px;
   }
 }
